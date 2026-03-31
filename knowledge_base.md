@@ -55,7 +55,7 @@ Nein, spezielle Transportboxen werden von DAGO Express nicht zur Verfügung gest
 
 ### Wo finde ich einen Carrier-Versicherer?
 
-Versicherungsunternehmen wie AXA, Allianz oder Ergo Hestia bieten Frachtführerversicherungen an. Alternativ kann in dem jeweiligen Land nach dem entsprechenden Ansprechpartner gesucht werden, z.B. mit dem Stichwort: "Frachtführerhaftpflichtversicherung [Land] Kontakt".
+Versicherungsunternehmen wie AXA, Allianz oder Ergo Hestia bieten Frachtführerversicherungen an. Für deutsche Carrier empfehlen wir: https://www.finanzchef24.de/versicherung/frachtfuehrerversicherung — Alternativ kann in dem jeweiligen Land nach dem entsprechenden Ansprechpartner gesucht werden, z.B. mit dem Stichwort: "Frachtführerhaftpflichtversicherung [Land] Kontakt".
 
 ---
 
@@ -354,7 +354,7 @@ Deckt Schäden an Frachtgütern während des Transports ab. Schützt den Frachte
 
 #### Woher bekomme ich eine Frachtführerversicherung?
 
-Versicherer wie AXA, Allianz oder Ergo Hestia. Suche mit Stichwort: "Frachtführerhaftpflichtversicherung [Land] Kontakt".
+Versicherer wie AXA, Allianz oder Ergo Hestia. Für deutsche Carrier empfehlen wir: https://www.finanzchef24.de/versicherung/frachtfuehrerversicherung — Alternativ mit dem Stichwort suchen: "Frachtführerhaftpflichtversicherung [Land] Kontakt".
 
 #### Frachtführerversicherung = Carrier-Versicherung?
 
