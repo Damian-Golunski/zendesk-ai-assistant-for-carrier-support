@@ -114,7 +114,7 @@ async def handle_zendesk_webhook(request: Request):
             "Voraussetzungen:",
             "- Gewerbeanmeldung",
             "- Eigenes Fahrzeug (Fahrrad, Roller, Pkw, Van oder Lkw)",
-            "- Carrier-Versicherung (für Pkw und größer, nicht für Fahrrad/Motorrad)",
+            "- Carrier-Versicherung (für Vans und Lkw, nicht für Fahrrad/Motorrad/Pkw)",
             "",
             "Bei Fragen stehen wir dir gerne zur Verfügung.",
             "",

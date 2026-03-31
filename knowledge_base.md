@@ -68,7 +68,7 @@ Versicherungsunternehmen wie AXA, Allianz oder Ergo Hestia bieten Frachtführerv
 Um sich als Fahrer-Partner bei DAGO Express anzumelden, sind folgende Voraussetzungen erforderlich:
 - Ein Fahrzeug (Fahrrad, Roller, Pkw, Transporter oder Lkw), das gemietet, geleast oder gekauft sein kann
 - Eine gültige Gewerbeanmeldung mit entsprechendem Nachweis
-- Eine Transport- bzw. Carrier-Versicherung (verpflichtend für Pkw und größere Fahrzeuge, **nicht** für Fahrräder oder Motorräder)
+- Eine Transport- bzw. Carrier-Versicherung (verpflichtend für Vans und Lkw, **nicht** für Fahrräder oder Motorräder)
 - Ein iPhone oder Android-Smartphone, da die Nutzung der Driver App während der Auftragsdurchführung obligatorisch ist
 
 #### Ist eine Bewerbung notwendig?
@@ -155,7 +155,7 @@ Die Frachtführerversicherung deckt Schäden an Frachtgütern ab, die während d
 - **KFZ-Haftpflichtversicherung**: Deckt nur Schäden an eigenen und anderen Fahrzeugen ab, **nicht** die transportierte Ware.
 - **Betriebshaftpflichtversicherung**: Deckt Risiken von Gewerbetreibenden bei Schäden, die Mitarbeiter an Dritten oder deren Eigentum verursachen (Personen- und Sachschäden).
 
-**Wichtig:** Carrier-Versicherung ist Pflicht für Pkw, Vans und Lkw. Für Fahrräder und Motorräder ist sie **nicht** erforderlich.
+**Wichtig:** Carrier-Versicherung ist Pflicht für Vans und Lkw. Für Fahrräder und Motorräder ist sie **nicht** erforderlich.
 
 #### Wofür brauche ich eine Gewerbeanmeldung?
 
@@ -229,7 +229,7 @@ Nein, für die Abrechnung eines Auftrags wird der entsprechende Ablieferbeleg be
 
 - **Fahrzeug:** Fahrrad, Roller, Pkw, Van oder Lkw (gemietet, geleast oder gekauft)
 - **Gewerbeanmeldung:** Gewerbeanmeldungsschein vom Ordnungs- oder Gewerbeamt
-- **Carrier-Versicherung:** Pflicht für Pkw und größere Fahrzeuge. **Nicht erforderlich** für Fahrräder und Motorräder. Mindestdeckung: 8,33 SZR pro Kilogramm Bruttogewicht. Nicht verwechseln mit Kfz-Versicherung oder Betriebshaftpflichtversicherung!
+- **Carrier-Versicherung:** Pflicht für Vans und Lkw. **Nicht erforderlich** für Fahrräder und Motorräder. Mindestdeckung: 8,33 SZR pro Kilogramm Bruttogewicht. Nicht verwechseln mit Kfz-Versicherung oder Betriebshaftpflichtversicherung!
 - **Smartphone & DAGO Express Driver App:** iPhone oder Android. App ist während der Auftragsdurchführung verpflichtend.
 
 ### So läuft die Zusammenarbeit
@@ -271,7 +271,7 @@ Verstöße können zur Nichtzahlung der Fracht und dauerhaften Sperrung des Kont
 
 - Fahrzeug (Fahrrad, Roller, Pkw, Van oder Lkw - gemietet, geleast oder gekauft)
 - Gewerbeanmeldung mit gültigem Gewerbeschein
-- Carrier-Versicherung (Pflicht für Pkw und größere Fahrzeuge, **nicht** für Fahrrad/Motorrad)
+- Carrier-Versicherung (Pflicht für Vans und Lkw, **nicht** für Fahrrad/Motorrad)
 - Alle Fahrer müssen ein Smartphone mit der DAGO Express Driver App (iOS oder Android) nutzen
 
 #### Ist eine Bewerbung notwendig?
