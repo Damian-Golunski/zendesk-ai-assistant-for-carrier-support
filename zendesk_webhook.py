@@ -102,24 +102,26 @@ async def handle_zendesk_webhook(request: Request):
 
     if is_bewerbung:
         logger.info(f"Ticket {ticket_id} detected as Bewerbung — sending auto-reply")
-        auto_reply = (
-            "Hallo,\n\n"
-            "vielen Dank für dein Interesse an einer Zusammenarbeit mit DAGO Express.\n\n"
-            "Bitte beachte, dass wir keine Festanstellungen anbieten. "
-            "Wir arbeiten ausschließlich mit selbstständigen Transportpartnern zusammen.\n\n"
-            "Wenn du als Transportpartner mit uns zusammenarbeiten möchtest, "
-            "registriere dich bitte direkt über unsere App „DAGO Express Driver" "
-            "(verfügbar im Google Play Store und Apple App Store) oder über unsere Webseite "
-            "im Bereich „Fahrer".\n\n"
-            "Voraussetzungen:\n"
-            "• Gewerbeanmeldung\n"
-            "• Eigenes Fahrzeug (Fahrrad, Roller, Pkw, Van oder Lkw)\n"
-            "• Carrier-Versicherung (für Pkw und größer, nicht für Fahrrad/Motorrad)\n\n"
-            "Bei Fragen stehen wir dir gerne zur Verfügung.\n\n"
-            "Mit freundlichen Grüßen,\n"
-            "Carrier Support Team\n"
-            "DAGO Express GmbH"
-        )
+        auto_reply = "\n".join([
+            "Hallo,",
+            "",
+            "vielen Dank für dein Interesse an einer Zusammenarbeit mit DAGO Express.",
+            "",
+            "Bitte beachte, dass wir keine Festanstellungen anbieten. Wir arbeiten ausschließlich mit selbstständigen Transportpartnern zusammen.",
+            "",
+            "Wenn du als Transportpartner mit uns zusammenarbeiten möchtest, registriere dich bitte direkt über unsere App 'DAGO Express Driver' (verfügbar im Google Play Store und Apple App Store) oder über unsere Webseite im Bereich 'Fahrer'.",
+            "",
+            "Voraussetzungen:",
+            "- Gewerbeanmeldung",
+            "- Eigenes Fahrzeug (Fahrrad, Roller, Pkw, Van oder Lkw)",
+            "- Carrier-Versicherung (für Pkw und größer, nicht für Fahrrad/Motorrad)",
+            "",
+            "Bei Fragen stehen wir dir gerne zur Verfügung.",
+            "",
+            "Mit freundlichen Grüßen,",
+            "Carrier Support Team",
+            "DAGO Express GmbH",
+        ])
         await post_public_reply(ticket_id, auto_reply, status="solved")
 
     return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": is_bewerbung}
