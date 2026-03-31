@@ -9,6 +9,7 @@ from zendesk_api import (
     get_ticket_comments,
     get_requester,
     post_private_note,
+    post_public_reply,
     resolve_carrier_support_group_id,
 )
 from ai_assistant import analyze_ticket
@@ -94,4 +95,31 @@ async def handle_zendesk_webhook(request: Request):
     note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
     success = await post_private_note(ticket_id, note_body)
 
-    return {"status": "ok" if success else "error", "ticket_id": ticket_id}
+    # Auto-reply for Bewerbung/CV tickets
+    bewerbung_keywords = ["bewerbung", "bewerben", "lebenslauf", "cv ", "curriculum vitae", "stellenangebot"]
+    text_lower = f"{subject} {message_body}".lower()
+    is_bewerbung = any(kw in text_lower for kw in bewerbung_keywords)
+
+    if is_bewerbung:
+        logger.info(f"Ticket {ticket_id} detected as Bewerbung — sending auto-reply")
+        auto_reply = (
+            "Hallo,\n\n"
+            "vielen Dank für dein Interesse an einer Zusammenarbeit mit DAGO Express.\n\n"
+            "Bitte beachte, dass wir keine Festanstellungen anbieten. "
+            "Wir arbeiten ausschließlich mit selbstständigen Transportpartnern zusammen.\n\n"
+            "Wenn du als Transportpartner mit uns zusammenarbeiten möchtest, "
+            "registriere dich bitte direkt über unsere App „DAGO Express Driver" "
+            "(verfügbar im Google Play Store und Apple App Store) oder über unsere Webseite "
+            "im Bereich „Fahrer".\n\n"
+            "Voraussetzungen:\n"
+            "• Gewerbeanmeldung\n"
+            "• Eigenes Fahrzeug (Fahrrad, Roller, Pkw, Van oder Lkw)\n"
+            "• Carrier-Versicherung (für Pkw und größer, nicht für Fahrrad/Motorrad)\n\n"
+            "Bei Fragen stehen wir dir gerne zur Verfügung.\n\n"
+            "Mit freundlichen Grüßen,\n"
+            "Carrier Support Team\n"
+            "DAGO Express GmbH"
+        )
+        await post_public_reply(ticket_id, auto_reply, status="solved")
+
+    return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": is_bewerbung}

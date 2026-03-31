@@ -111,3 +111,28 @@ async def post_private_note(ticket_id: int, body: str) -> bool:
             return False
         logger.info(f"Private note posted on ticket {ticket_id}")
         return True
+
+
+async def post_public_reply(ticket_id: int, body: str, status: str = "solved") -> bool:
+    """Post a public reply on a ticket and optionally set status."""
+    payload = {
+        "ticket": {
+            "comment": {
+                "body": body,
+                "public": True,
+            },
+            "status": status,
+        }
+    }
+    async with httpx.AsyncClient() as client:
+        resp = await client.put(
+            f"{_base_url()}/tickets/{ticket_id}.json",
+            auth=_auth(),
+            json=payload,
+            timeout=15.0,
+        )
+        if resp.status_code != 200:
+            logger.error(f"Failed to post reply on ticket {ticket_id}: {resp.status_code} {resp.text[:200]}")
+            return False
+        logger.info(f"Public reply posted on ticket {ticket_id} (status={status})")
+        return True
