@@ -26,11 +26,11 @@ WICHTIG:
 
 Antwortformat (verwende genau dieses Format):
 
-📋 ZUSAMMENFASSUNG
-[1-2 Sätze was der Carrier will]
-
 🏷️ KATEGORIE
 [Kategorie]
+
+📋 ZUSAMMENFASSUNG
+[1-2 Sätze was der Carrier will]
 
 ✉️ ANTWORTVORSCHLAG
 [Vorgeschlagene Antwort an den Carrier]
