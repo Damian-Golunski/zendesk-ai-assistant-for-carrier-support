@@ -599,7 +599,8 @@ Englisch: https://dagoexpress.com/en-gb/transportpartner-werden/
 ### Weitere Links
 - **Empfehlungsprogramm:** https://dagoexpress.com/fahrer-weiterempfehlungsprogramm/
 - **Aufkleberprogramm:** https://dagoexpress.com/aufkleber-programm/
-- **Öffentliche Auftragsliste:** https://app.dagoexpress.com/public-transports (DE), mit Sprachcode: /en/, /pl/, /es/, /fr/, /it/, /ro/, /nl/
+- **Öffentliche Transportliste (zuletzt durchgeführte Transporte):** https://app.dagoexpress.com/public-transports (DE), mit Sprachcode: /en/, /pl/, /es/, /fr/, /it/, /ro/, /nl/
+  WICHTIG: Diese Liste zeigt ZULETZT DURCHGEFÜHRTE Transporte, NICHT aktuelle/verfügbare Aufträge! Verwende NICHT den Begriff "aktuelle Aufträge" oder "verfügbare Transporte" für diesen Link.
 
 ### Regeln für Links in Antworten
 - IMMER den Link in der Sprache des Carriers verwenden (wenn verfügbar)
