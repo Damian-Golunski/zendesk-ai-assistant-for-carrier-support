@@ -435,7 +435,7 @@ Nein, der Ablieferbeleg ist für die Abrechnung erforderlich.
 
 #### Kann ich meine Fahrzeugdaten selbst ändern?
 
-Ja, im Profil unter "FAHRZEUGFLOTTE" können Fahrzeugdaten geändert oder bearbeitet werden.
+Ja, im Profil unter "FAHRZEUGFLOTTE" können Fahrzeugdaten geändert oder bearbeitet werden. Bei einem Tippfehler im Kennzeichen oder anderen kritischen Fahrzeugdaten muss der Carrier das Fahrzeug selbst löschen und mit den korrekten Daten neu anlegen. DAGO Express nimmt keine manuellen Korrekturen vor — der Carrier muss das eigenständig in der App oder im CarrierHub tun.
 
 #### Kann ich als Fleet Manager auch selbst Aufträge ausführen?
 
