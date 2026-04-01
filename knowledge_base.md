@@ -17,6 +17,10 @@ Steuer-ID: DE342078274
 
 Nein, der Gewerbeschein muss keinen speziellen Eintrag wie „Transport" oder „Kurierfahrer" enthalten. Wichtig ist lediglich, dass eine aktive Gewerbeanmeldung vorliegt. Ein konkreter, spezieller Eintrag zum Thema Transport ist nicht erforderlich.
 
+### Carrier schickt Dokumente per E-Mail statt über die Plattform
+
+Dokumente per E-Mail können NICHT verarbeitet werden. Carrier MUSS alle Dokumente direkt über die Plattform hochladen (Driver App für Solo Driver, CarrierHub/Website für Fleet Manager). Nur so können die Dokumente automatisch dem Account zugeordnet und geprüft werden. Bitte den Carrier freundlich darauf hinweisen, die Dokumente über die Plattform hochzuladen.
+
 ### Wie lange dauert die Dokumentenprüfung?
 
 Die Überprüfung der Unterlagen dauert in der Regel 1-2 Wochen nach dem vollständigen Upload in der App. Alle erforderlichen Dokumente müssen vollständig und gut lesbar hochgeladen sein. Die Freischaltung erfolgt erst nach erfolgreicher interner Prüfung.
