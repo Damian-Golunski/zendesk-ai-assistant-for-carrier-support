@@ -565,4 +565,47 @@ Verstöße können zur Nichtzahlung der gesamten Fracht und dauerhaften Sperrung
 
 ---
 
+## 7. Wichtige Links (IMMER diese URLs verwenden!)
+
+### Solo Driver Registrierung (Fahrer werden)
+Deutsch: https://dagoexpress.com/fahrerpartner-werden/
+Englisch: https://dagoexpress.com/en-gb/become-a-driver-partner/
+Polnisch: https://dagoexpress.com/pl/fahrerpartner-werden/
+Spanisch: https://dagoexpress.com/es/fahrerpartner-werden/
+Französisch: https://dagoexpress.com/fr/fahrerpartner-werden/
+Italienisch: https://dagoexpress.com/it/fahrerpartner-werden/
+Rumänisch: https://dagoexpress.com/ro/fahrerpartner-werden/
+Niederländisch: https://dagoexpress.com/nl/fahrerpartner-werden/
+Portugiesisch: https://dagoexpress.com/pt/fahrerpartner-werden/
+Tschechisch: https://dagoexpress.com/cs/fahrerpartner-werden/
+Ungarisch: https://dagoexpress.com/hu/fahrerpartner-werden/
+Kroatisch: https://dagoexpress.com/hr/fahrerpartner-werden/
+Bulgarisch: https://dagoexpress.com/bg/fahrerpartner-werden/
+Griechisch: https://dagoexpress.com/el/fahrerpartner-werden/
+Slowakisch: https://dagoexpress.com/sk/fahrerpartner-werden/
+Slowenisch: https://dagoexpress.com/sl/fahrerpartner-werden/
+Litauisch: https://dagoexpress.com/lt/fahrerpartner-werden/
+Lettisch: https://dagoexpress.com/lv/fahrerpartner-werden/
+Estnisch: https://dagoexpress.com/et/fahrerpartner-werden/
+Finnisch: https://dagoexpress.com/fi/fahrerpartner-werden/
+Schwedisch: https://dagoexpress.com/sv/fahrerpartner-werden/
+Norwegisch: https://dagoexpress.com/nb/fahrerpartner-werden/
+Dänisch: https://dagoexpress.com/da/fahrerpartner-werden/
+
+### Fleet Manager Registrierung
+Deutsch: https://dagoexpress.com/transportpartner-werden/
+Englisch: https://dagoexpress.com/en-gb/transportpartner-werden/
+
+### Weitere Links
+- **Empfehlungsprogramm:** https://dagoexpress.com/fahrer-weiterempfehlungsprogramm/
+- **Aufkleberprogramm:** https://dagoexpress.com/aufkleber-programm/
+- **Öffentliche Auftragsliste:** https://app.dagoexpress.com/public-transports (DE), mit Sprachcode: /en/, /pl/, /es/, /fr/, /it/, /ro/, /nl/
+
+### Regeln für Links in Antworten
+- IMMER den Link in der Sprache des Carriers verwenden (wenn verfügbar)
+- NIEMALS vage Beschreibungen wie "auf unserer Website im Bereich Fahrer" — IMMER die konkrete URL!
+- Für Sprachen ohne eigene URL → Englisch (en-gb) als Fallback
+
+---
+
 *Wissensdatenbank erstellt für DAGO Express GmbH - Zendesk AI Assistant*
