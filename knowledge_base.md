@@ -25,6 +25,21 @@ Die Überprüfung der Unterlagen dauert in der Regel 1-2 Wochen nach dem vollst�
 
 Nein. Für Registrierung und allgemeine Carrier-Support-Themen bieten wir keinen telefonischen Support an. Solche Anfragen werden ausschließlich schriftlich über das Ticket-System bearbeitet. Telefonischer Support wird nur während eines laufenden, bereits angenommenen Auftrags angeboten. Weitere Informationen finden sich auf der Website im Bereich "Fahrer" unter "Solo Driver" oder "Fleet Manager".
 
+### VAT-ID / Umsatzsteuer-ID für ausländische Carrier
+
+Für Carrier mit Firmensitz AUSSERHALB Deutschlands ist eine gültige, im EU-VIES-System aktive VAT-ID (Umsatzsteuer-Identifikationsnummer) Pflicht bei der Registrierung.
+
+**Warum?** Rechnungen von ausländischen Transportpartnern (außerhalb Deutschlands) müssen mit 0% VAT im Reverse-Charge-Verfahren ausgestellt werden. Dafür ist eine aktive EU-VAT-Nummer zwingend erforderlich.
+
+**Was muss der Carrier tun?**
+1. Prüfen, ob seine VAT-ID im europäischen VIES-System aktiv ist: https://ec.europa.eu/taxation_customs/vies/#/vat-validation
+2. Die VAT-ID muss im korrekten Format eingegeben werden — mit Ländercode vorangestellt (z.B. ES für Spanien: ESB12345678, PL für Polen: PL1234567890)
+3. Falls die VAT-ID nicht im VIES aktiv ist: Der Carrier muss sich an sein zuständiges Finanzamt wenden und die VAT-ID für innergemeinschaftliche Lieferungen aktivieren lassen
+
+**Ohne aktive VAT-ID im VIES:** Auf dem aktuellen Stand bieten wir keine Zusammenarbeit für ausländische Transportpartner (außerhalb Deutschlands) an, da eine korrekte steuerliche Abwicklung (Reverse Charge, 0% VAT) nicht möglich ist.
+
+**Für Carrier mit Firmensitz in Deutschland:** Keine VAT-ID erforderlich.
+
 ### Wie sieht es mit der Haftung aus, wenn nicht das im Paket ist, was drin sein soll?
 
 Als Frachtführer haftet man im Rahmen der gesetzlichen Regelungen (CMR), wenn während des Transports ein Schaden, Verlust oder Diebstahl der Ware entsteht. Man haftet jedoch nicht für den Inhalt im Sinne von "ob das Richtige im Paket ist", sofern:
@@ -73,7 +88,7 @@ Um sich als Fahrer-Partner bei DAGO Express anzumelden, sind folgende Voraussetz
 
 #### Ist eine Bewerbung notwendig?
 
-Nein, die Registrierung auf der Website von DAGO Express reicht vollkommen aus und ist zudem kostenlos. Nach dem Registrieren einfach die genannten Unterlagen hochladen und warten, bis nach etwa 1-2 Wochen der Zugriff auf die Plattform freigeschaltet wird.
+Nein, eine Bewerbung ist nicht notwendig. Einfach die DAGO Express Driver App herunterladen (Google Play Store oder Apple App Store, Suche: "DAGO Express Driver"), sich direkt über die App registrieren und die genannten Unterlagen hochladen. Die Freischaltung erfolgt nach etwa 1-2 Wochen.
 
 #### Bietet DAGO Express Festanstellungen an?
 
@@ -421,6 +436,10 @@ Nein, der Ablieferbeleg ist für die Abrechnung erforderlich.
 #### Kann ich meine Fahrzeugdaten selbst ändern?
 
 Ja, im Profil unter "FAHRZEUGFLOTTE" können Fahrzeugdaten geändert oder bearbeitet werden.
+
+#### Kann ich als Fleet Manager auch selbst Aufträge ausführen?
+
+Ja. Dazu muss man sich im CarrierHub (Webpanel) selbst als Fahrer in der Fahrerliste anlegen. Wichtig: Dafür wird eine **andere E-Mail-Adresse** benötigt als die, mit der man als Fleet Manager registriert ist. Mit dieser zweiten E-Mail-Adresse loggt man sich dann in der DAGO Express Driver App ein und führt Aufträge aus.
 
 ---
 
