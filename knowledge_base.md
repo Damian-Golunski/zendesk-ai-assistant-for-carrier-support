@@ -568,33 +568,54 @@ Verstöße können zur Nichtzahlung der gesamten Fracht und dauerhaften Sperrung
 ## 7. Wichtige Links (IMMER diese URLs verwenden!)
 
 ### Solo Driver Registrierung (Fahrer werden)
-Deutsch: https://dagoexpress.com/fahrerpartner-werden/
-Englisch: https://dagoexpress.com/en-gb/become-a-driver-partner/
-Polnisch: https://dagoexpress.com/pl/fahrerpartner-werden/
-Spanisch: https://dagoexpress.com/es/fahrerpartner-werden/
-Französisch: https://dagoexpress.com/fr/fahrerpartner-werden/
-Italienisch: https://dagoexpress.com/it/fahrerpartner-werden/
-Rumänisch: https://dagoexpress.com/ro/fahrerpartner-werden/
-Niederländisch: https://dagoexpress.com/nl/fahrerpartner-werden/
-Portugiesisch: https://dagoexpress.com/pt/fahrerpartner-werden/
-Tschechisch: https://dagoexpress.com/cs/fahrerpartner-werden/
-Ungarisch: https://dagoexpress.com/hu/fahrerpartner-werden/
-Kroatisch: https://dagoexpress.com/hr/fahrerpartner-werden/
-Bulgarisch: https://dagoexpress.com/bg/fahrerpartner-werden/
-Griechisch: https://dagoexpress.com/el/fahrerpartner-werden/
-Slowakisch: https://dagoexpress.com/sk/fahrerpartner-werden/
-Slowenisch: https://dagoexpress.com/sl/fahrerpartner-werden/
-Litauisch: https://dagoexpress.com/lt/fahrerpartner-werden/
-Lettisch: https://dagoexpress.com/lv/fahrerpartner-werden/
-Estnisch: https://dagoexpress.com/et/fahrerpartner-werden/
-Finnisch: https://dagoexpress.com/fi/fahrerpartner-werden/
-Schwedisch: https://dagoexpress.com/sv/fahrerpartner-werden/
-Norwegisch: https://dagoexpress.com/nb/fahrerpartner-werden/
-Dänisch: https://dagoexpress.com/da/fahrerpartner-werden/
+de: https://dagoexpress.com/fahrerpartner-werden/
+en-gb: https://dagoexpress.com/en-gb/become-a-driver-partner/
+nl: https://dagoexpress.com/nl/word-chauffeur-partner/
+pl: https://dagoexpress.com/pl/zostan-partnerem-kierowca/
+es: https://dagoexpress.com/es/conviertete-en-socio-conductor/
+fr: https://dagoexpress.com/fr/devenir-partenaire-chauffeur/
+it: https://dagoexpress.com/it/diventa-partner-autista/
+ro: https://dagoexpress.com/ro/devino-partener-sofer/
+cs: https://dagoexpress.com/cs/stante-se-partnerskym-ridicem/
+hr: https://dagoexpress.com/hr/postanite-partnerski-vozac/
+sk: https://dagoexpress.com/sk/stante-sa-partnerskym-vodicom/
+sl: https://dagoexpress.com/sl/postanite-partnerski-voznik/
+lt: https://dagoexpress.com/lt/tapkite-vairuotoju-partneriu/
+lv: https://dagoexpress.com/lv/klusti-par-vaditaja-partneri/
+et: https://dagoexpress.com/et/hakka-juhipartneriks/
+fi: https://dagoexpress.com/fi/ryhty-kuljettajakumppaniksi/
+sv: https://dagoexpress.com/sv/bli-foerarpartner/
+nb: https://dagoexpress.com/nb/bli-sjaforpartner/
+da: https://dagoexpress.com/da/bliv-chauffoerpartner/
+bg: https://dagoexpress.com/bg/станете-партньор-шофьор/
+el: https://dagoexpress.com/el/γίνε-συνεργάτης-οδηγός/
+hu: https://dagoexpress.com/fahrerpartner-werden/ (kein HU — verwende DE)
+pt: https://dagoexpress.com/fahrerpartner-werden/ (kein PT — verwende DE)
 
 ### Fleet Manager Registrierung
-Deutsch: https://dagoexpress.com/transportpartner-werden/
-Englisch: https://dagoexpress.com/en-gb/transportpartner-werden/
+de: https://dagoexpress.com/transportpartner-werden/
+en-gb: https://dagoexpress.com/en-gb/become-a-transport-partner-2/
+nl: https://dagoexpress.com/nl/transportpartner-worden/
+pl: https://dagoexpress.com/pl/zostan-partnerem-transportowym/
+es: https://dagoexpress.com/es/conviertete-en-socio-de-transporte/
+fr: https://dagoexpress.com/fr/devenir-partenaire-de-transport/
+it: https://dagoexpress.com/it/diventa-partner-di-trasporto/
+ro: https://dagoexpress.com/ro/deveniti-partener-de-transport/
+cs: https://dagoexpress.com/cs/stante-se-dopravnim-partnerem/
+hr: https://dagoexpress.com/hr/postanite-transportni-partner/
+sk: https://dagoexpress.com/sk/stante-sa-dopravnym-partnerom/
+sl: https://dagoexpress.com/sl/postanite-prevozni-partner/
+lt: https://dagoexpress.com/lt/tapkite-transporto-partneriu/
+lv: https://dagoexpress.com/lv/klustiet-par-transporta-partneri/
+et: https://dagoexpress.com/et/hakka-transpordipartneriks/
+fi: https://dagoexpress.com/fi/ryhdy-kuljetuskumppaniksi/
+sv: https://dagoexpress.com/sv/bli-transportpartner/
+nb: https://dagoexpress.com/nb/bli-transportpartner/
+da: https://dagoexpress.com/da/bliv-transportpartner/
+bg: https://dagoexpress.com/bg/станете-транспортен-партньор/
+el: https://dagoexpress.com/el/γίνετε-συνεργάτης-μεταφορών/
+hu: https://dagoexpress.com/transportpartner-werden/ (kein HU — verwende DE)
+pt: https://dagoexpress.com/transportpartner-werden/ (kein PT — verwende DE)
 
 ### Weitere Links
 - **Empfehlungsprogramm:** https://dagoexpress.com/fahrer-weiterempfehlungsprogramm/
