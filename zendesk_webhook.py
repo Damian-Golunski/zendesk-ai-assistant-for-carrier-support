@@ -226,7 +226,8 @@ async def handle_zendesk_webhook(request: Request):
                 break
 
         # Categories eligible for auto-reply using the Antwortvorschlag from analysis
-        auto_reply_categories = {"versicherung", "registrierung", "auftraege", "dokumente", "app/technik", "bewerbung", "sonstiges"}
+        # Check if AI flagged for auto-reply
+        is_auto_reply = "AUTO-REPLY: JA" in analysis
         # Normalize category: replace umlauts and encoding variants
         import unicodedata
         category = unicodedata.normalize("NFC", category)
@@ -263,7 +264,7 @@ async def handle_zendesk_webhook(request: Request):
             except Exception as e:
                 logger.error(f"Failed to send Bewerbung auto-reply for ticket {ticket_id}: {e}")
 
-        elif category in auto_reply_categories:
+        elif is_auto_reply:
             reply_text = ""
             for i, line in enumerate(lines):
                 if "ANTWORTVORSCHLAG" in line:
