@@ -12,7 +12,7 @@ from zendesk_api import (
     post_public_reply,
     resolve_carrier_support_group_id,
 )
-from ai_assistant import analyze_ticket
+from ai_assistant import analyze_ticket, analyze_follow_up, generate_bewerbung_reply
 
 logger = logging.getLogger(__name__)
 
@@ -62,18 +62,8 @@ async def handle_zendesk_webhook(request: Request):
         logger.info(f"Ticket {ticket_id} not in Carrier Support group (group_id={ticket_group_id}), skipping")
         return {"status": "skipped", "reason": "not carrier support group"}
 
-    # Get comments to check if this is the first message
+    # Get comments
     comments = await get_ticket_comments(ticket_id)
-
-    # Filter out system/internal comments — only count public end-user comments
-    public_comments = [c for c in comments if c.get("public", True) and c.get("author_id") == ticket.get("requester_id")]
-
-    if len(public_comments) != 1:
-        logger.info(f"Ticket {ticket_id} has {len(public_comments)} requester comments, skipping (only process first)")
-        return {"status": "skipped", "reason": "not first message"}
-
-    first_comment = public_comments[0]
-    message_body = first_comment.get("plain_body") or first_comment.get("body", "")
     subject = ticket.get("subject", "(kein Betreff)")
 
     # Get requester info
@@ -84,44 +74,100 @@ async def handle_zendesk_webhook(request: Request):
         if requester:
             requester_name = requester.get("name")
 
-    # Run AI analysis
-    try:
-        analysis = await analyze_ticket(subject, message_body, requester_name)
-    except Exception as e:
-        logger.error(f"AI analysis failed for ticket {ticket_id}: {e}")
-        return {"status": "error", "reason": "ai analysis failed"}
+    # Filter public end-user comments
+    public_comments = [c for c in comments if c.get("public", True) and c.get("author_id") == requester_id]
 
-    # Post as private note
-    note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
-    success = await post_private_note(ticket_id, note_body)
+    if not public_comments:
+        return {"status": "skipped", "reason": "no requester comments"}
 
-    # Auto-reply for Bewerbung/CV tickets
-    bewerbung_keywords = ["bewerbung", "bewerben", "lebenslauf", "cv ", "curriculum vitae", "stellenangebot"]
-    text_lower = f"{subject} {message_body}".lower()
-    is_bewerbung = any(kw in text_lower for kw in bewerbung_keywords)
+    # Get first message body (needed for both analysis and Bewerbung detection)
+    first_comment = public_comments[0]
+    message_body = first_comment.get("plain_body") or first_comment.get("body", "")
 
-    if is_bewerbung:
-        logger.info(f"Ticket {ticket_id} detected as Bewerbung — sending auto-reply")
-        auto_reply = "\n".join([
-            "Hallo,",
-            "",
-            "vielen Dank für dein Interesse an einer Zusammenarbeit mit DAGO Express.",
-            "",
-            "Bitte beachte, dass wir keine Festanstellungen anbieten. Wir arbeiten ausschließlich mit selbstständigen Transportpartnern zusammen.",
-            "",
-            "Wenn du als Transportpartner mit uns zusammenarbeiten möchtest, registriere dich bitte direkt über unsere App 'DAGO Express Driver' (verfügbar im Google Play Store und Apple App Store) oder über unsere Webseite im Bereich 'Fahrer'.",
-            "",
-            "Voraussetzungen:",
-            "- Gewerbeanmeldung",
-            "- Eigenes Fahrzeug (Fahrrad, Roller, Pkw, Van oder Lkw)",
-            "- Carrier-Versicherung (für Vans und Lkw, nicht für Fahrrad/Motorrad/Pkw)",
-            "",
-            "Bei Fragen stehen wir dir gerne zur Verfügung.",
-            "",
-            "Mit freundlichen Grüßen,",
-            "Carrier Support Team",
-            "DAGO Express GmbH",
-        ])
-        await post_public_reply(ticket_id, auto_reply, status="solved")
+    is_follow_up = len(public_comments) > 1
+
+    if is_follow_up:
+        # Build conversation history from all comments
+        conversation = []
+        for c in comments:
+            is_requester = c.get("author_id") == requester_id
+            is_public = c.get("public", True)
+            text = c.get("plain_body") or c.get("body", "")
+            if is_requester and is_public:
+                conversation.append({"role": "Carrier", "text": text})
+            elif not is_requester and is_public:
+                conversation.append({"role": "Agent (öffentlich)", "text": text})
+            elif not is_public:
+                conversation.append({"role": "Interne Notiz", "text": text})
+
+        try:
+            analysis = await analyze_follow_up(subject, conversation, requester_name)
+        except Exception as e:
+            logger.error(f"AI follow-up analysis failed for ticket {ticket_id}: {e}")
+            return {"status": "error", "reason": "ai analysis failed"}
+
+        note_body = f"🤖 AI Carrier Support Assistant (Follow-up)\n\n{analysis}"
+        success = await post_private_note(ticket_id, note_body)
+    else:
+        # Run AI analysis
+        try:
+            analysis = await analyze_ticket(subject, message_body, requester_name)
+        except Exception as e:
+            logger.error(f"AI analysis failed for ticket {ticket_id}: {e}")
+            return {"status": "error", "reason": "ai analysis failed"}
+
+        # Post as private note
+        note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
+        success = await post_private_note(ticket_id, note_body)
+
+    # Auto-reply for Bewerbung/CV tickets (only on first message)
+    if not is_follow_up:
+        bewerbung_keywords = [
+            # DE
+            "bewerbung", "bewerben", "lebenslauf", "stellenangebot",
+            # EN
+            "cv ", "curriculum vitae", "resume", "job application", "apply for", "job offer",
+            # ES
+            "candidatura", "solicitud de empleo", "oferta de trabajo", "currículum",
+            # FR
+            "candidature", "offre d'emploi", "lettre de motivation",
+            # IT
+            "candidatura", "offerta di lavoro", "domanda di lavoro",
+            # NL
+            "sollicitatie", "vacature", "curriculum vitae",
+            # PL
+            "podanie o prace", "aplikacja", "praca kierowca", "oferta pracy",
+            # HU
+            "állásjelentkezés", "önéletrajz", "álláspályázat",
+            # CS
+            "žádost o práci", "životopis", "nabídka práce",
+            # SK
+            "žiadosť o prácu", "životopis", "ponuka práce",
+            # RO
+            "cerere de angajare", "angajare", "locuri de muncă",
+            # NO/SV/DA/FI
+            "jobbsøknad", "jobbansökan", "jobansøgning", "työhakemus",
+            # SI/HR
+            "prijava za delo", "prijava za posao", "životopis",
+            # LT/ET/LV
+            "darbo paraiška", "tööavaldus", "darba pieteikums",
+            # EL
+            "αίτηση εργασίας", "βιογραφικό",
+            # BG
+            "кандидатура", "автобиография", "обява за работа",
+        ]
+        text_lower = f"{subject} {message_body}".lower()
+        is_bewerbung = any(kw in text_lower for kw in bewerbung_keywords)
+
+        if is_bewerbung:
+            logger.info(f"Ticket {ticket_id} detected as Bewerbung — generating auto-reply in sender's language")
+            try:
+                auto_reply = await generate_bewerbung_reply(subject, message_body)
+                await post_public_reply(ticket_id, auto_reply, status="solved")
+            except Exception as e:
+                logger.error(f"Failed to generate/send Bewerbung auto-reply for ticket {ticket_id}: {e}")
+                is_bewerbung = False
+    else:
+        is_bewerbung = False
 
     return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": is_bewerbung}
