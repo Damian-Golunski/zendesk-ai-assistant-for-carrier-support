@@ -624,6 +624,8 @@ pt: https://dagoexpress.com/transportpartner-werden/ (kein PT — verwende DE)
 ### Weitere Links
 - **Empfehlungsprogramm:** https://dagoexpress.com/fahrer-weiterempfehlungsprogramm/
 - **Aufkleberprogramm:** https://dagoexpress.com/aufkleber-programm/
+- **Fleet Manager Registrierung (Webzugang/CarrierHub):** https://app.dagoexpress.com/account-driver-type (DE), mit Sprachcode: /en/, /pl/, /es/, /fr/, /it/, /nl/, /ro/
+  Verwenden wenn ein Solo Driver auf Fleet Manager wechseln moechte oder wenn jemand einen Webzugang braucht.
 - **Öffentliche Transportliste (zuletzt durchgeführte Transporte):** https://app.dagoexpress.com/public-transports (DE), mit Sprachcode: /en/, /pl/, /es/, /fr/, /it/, /ro/, /nl/
   WICHTIG: Diese Liste zeigt ZULETZT DURCHGEFÜHRTE Transporte, NICHT aktuelle/verfügbare Aufträge! Verwende NICHT den Begriff "aktuelle Aufträge" oder "verfügbare Transporte" für diesen Link.
 
