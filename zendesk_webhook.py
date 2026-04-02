@@ -21,6 +21,23 @@ router = APIRouter()
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "")
 
 
+@router.get("/ticket/{ticket_id}/comments")
+async def get_comments(ticket_id: int):
+    """Read all comments for a ticket (debug/review endpoint)."""
+    comments = await get_ticket_comments(ticket_id)
+    ticket = await get_ticket(ticket_id)
+    subject = ticket.get("subject", "") if ticket else ""
+    result = []
+    for c in comments:
+        result.append({
+            "author_id": c.get("author_id"),
+            "public": c.get("public", True),
+            "body": c.get("plain_body") or c.get("body", ""),
+            "created_at": c.get("created_at"),
+        })
+    return {"ticket_id": ticket_id, "subject": subject, "comments": result}
+
+
 @router.post("/webhook/zendesk")
 async def handle_zendesk_webhook(request: Request):
     """Handle Zendesk webhook for new/updated tickets.
