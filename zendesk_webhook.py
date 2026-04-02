@@ -74,6 +74,17 @@ async def get_comments(ticket_id: int):
     return {"ticket_id": ticket_id, "subject": subject, "comments": result}
 
 
+@router.post("/ticket/{ticket_id}/note")
+async def send_note(ticket_id: int, request: Request):
+    """Post a private note on a ticket."""
+    body = await request.json()
+    text = body.get("body", "")
+    if not text:
+        raise HTTPException(status_code=400, detail="body is required")
+    success = await post_private_note(ticket_id, text)
+    return {"status": "ok" if success else "error", "ticket_id": ticket_id}
+
+
 @router.post("/ticket/{ticket_id}/reply")
 async def send_reply(ticket_id: int, request: Request):
     """Send a public reply on a ticket and optionally set status."""
