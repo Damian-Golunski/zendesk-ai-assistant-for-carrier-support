@@ -138,9 +138,6 @@ async def handle_zendesk_webhook(request: Request):
             logger.error(f"AI follow-up analysis failed for ticket {ticket_id}: {e}")
             return {"status": "error", "reason": "ai analysis failed"}
 
-        note_body = f"🤖 AI Carrier Support Assistant (Follow-up)\n\n{analysis}"
-        success = await post_private_note(ticket_id, note_body)
-
         # Check if AI flagged this follow-up for auto-reply
         if "AUTO-REPLY: JA" in analysis:
             lines = analysis.split("\n")
@@ -156,6 +153,10 @@ async def handle_zendesk_webhook(request: Request):
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 except Exception as e:
                     logger.error(f"Failed to send follow-up auto-reply for ticket {ticket_id}: {e}")
+
+        # No auto-reply — post as private note for agent
+        note_body = f"🤖 AI Carrier Support Assistant (Follow-up)\n\n{analysis}"
+        success = await post_private_note(ticket_id, note_body)
     else:
         # Run AI analysis
         try:
@@ -164,13 +165,7 @@ async def handle_zendesk_webhook(request: Request):
             logger.error(f"AI analysis failed for ticket {ticket_id}: {e}")
             return {"status": "error", "reason": "ai analysis failed"}
 
-        # Post as private note
-        note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
-        success = await post_private_note(ticket_id, note_body)
-
-    # Auto-reply for specific categories (only on first message)
-    auto_replied = False
-    if not is_follow_up:
+        # Auto-reply for specific categories (only on first message)
         # Extract category from AI analysis (line after "KATEGORIE" header)
         category = ""
         lines = analysis.split("\n")
@@ -209,17 +204,15 @@ async def handle_zendesk_webhook(request: Request):
         is_bewerbung = any(kw in text_lower for kw in bewerbung_keywords)
 
         if is_bewerbung:
-            # Bewerbung: dedicated reply generator (separate prompt)
             logger.info(f"Ticket {ticket_id} detected as Bewerbung — auto-reply")
             try:
                 auto_reply = await generate_bewerbung_reply(subject, message_body)
                 await post_public_reply(ticket_id, auto_reply, status="solved")
-                auto_replied = True
+                return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
             except Exception as e:
                 logger.error(f"Failed to send Bewerbung auto-reply for ticket {ticket_id}: {e}")
 
         elif category in auto_reply_categories:
-            # Versicherung / Registrierung: use Antwortvorschlag from analysis
             reply_text = ""
             for i, line in enumerate(lines):
                 if "ANTWORTVORSCHLAG" in line:
@@ -229,8 +222,12 @@ async def handle_zendesk_webhook(request: Request):
                 logger.info(f"Ticket {ticket_id} category '{category}' — auto-reply with Antwortvorschlag")
                 try:
                     await post_public_reply(ticket_id, reply_text, status="solved")
-                    auto_replied = True
+                    return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 except Exception as e:
                     logger.error(f"Failed to send auto-reply for ticket {ticket_id}: {e}")
 
-    return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": auto_replied}
+        # No auto-reply — post as private note for agent
+        note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
+        success = await post_private_note(ticket_id, note_body)
+
+    return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": False}
