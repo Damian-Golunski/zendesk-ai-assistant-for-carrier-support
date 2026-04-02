@@ -86,7 +86,7 @@ DOKUMENTENPRUEFUNG/FREISCHALTUNG/STATUS:
 APP/TECHNIK PROBLEME (SMS-Code, Login, Verifizierung, App-Fehler):
 - IMMER nach registrierter E-Mail-Adresse UND Telefonnummer fragen — beides wird zur Verifizierung benoetigt
 - Wenn der Carrier keine Telefonnummer oder E-Mail im Ticket angibt, MUSS danach gefragt werden
-- Ticket OFFEN lassen (nicht solved) — warten auf Antwort des Carriers
+- WICHTIG: Ticket NICHT schliessen (nicht solved) — warten auf Antwort des Carriers. Status bleibt "open".
 
 CARRIER-VERSICHERUNG: Pflicht NUR fuer Vans und Lkw, NICHT fuer Pkw, Fahrrad, Motorrad.
 Deutsche Carrier: https://www.finanzchef24.de/versicherung/frachtfuehrerversicherung

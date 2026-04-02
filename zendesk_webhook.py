@@ -270,9 +270,12 @@ async def handle_zendesk_webhook(request: Request):
                     reply_text = "\n".join(lines[i + 1:]).strip()
                     break
             if reply_text:
-                logger.info(f"Ticket {ticket_id} category '{category}' — auto-reply with Antwortvorschlag")
+                # App/Technik: keep ticket open (waiting for carrier reply with email + phone)
+                keep_open_categories = {"app/technik"}
+                reply_status = "open" if category in keep_open_categories else "solved"
+                logger.info(f"Ticket {ticket_id} category '{category}' — auto-reply (status={reply_status})")
                 try:
-                    await post_public_reply(ticket_id, reply_text, status="solved")
+                    await post_public_reply(ticket_id, reply_text, status=reply_status)
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 except Exception as e:
                     logger.error(f"Failed to send auto-reply for ticket {ticket_id}: {e}")
