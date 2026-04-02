@@ -21,6 +21,31 @@ router = APIRouter()
 WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "")
 
 
+@router.get("/tickets/carrier-support/recent")
+async def list_recent_carrier_support():
+    """List recent unanswered Carrier Support tickets."""
+    import httpx
+    from zendesk_api import _base_url, _auth
+    carrier_group_id = await resolve_carrier_support_group_id()
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(
+            f"{_base_url()}/search.json",
+            params={"query": f"type:ticket group_id:{carrier_group_id} status<solved order_by:created_at sort:desc"},
+            auth=_auth(),
+            timeout=15.0,
+        )
+        results = resp.json().get("results", [])
+    tickets = []
+    for t in results[:30]:
+        tickets.append({
+            "id": t["id"],
+            "subject": t.get("subject", ""),
+            "status": t.get("status", ""),
+            "created_at": t.get("created_at", ""),
+        })
+    return {"tickets": tickets}
+
+
 @router.get("/ticket/{ticket_id}/comments")
 async def get_comments(ticket_id: int):
     """Read all comments for a ticket (debug/review endpoint)."""
@@ -36,6 +61,31 @@ async def get_comments(ticket_id: int):
             "created_at": c.get("created_at"),
         })
     return {"ticket_id": ticket_id, "subject": subject, "comments": result}
+
+
+@router.get("/tickets/carrier-support/recent")
+async def list_recent_carrier_support():
+    """List recent unanswered Carrier Support tickets."""
+    import httpx
+    from zendesk_api import _base_url, _auth
+    carrier_group_id = await resolve_carrier_support_group_id()
+    async with httpx.AsyncClient() as client:
+        resp = await client.get(
+            f"{_base_url()}/search.json",
+            params={"query": f"type:ticket group_id:{carrier_group_id} status<solved order_by:created_at sort:desc"},
+            auth=_auth(),
+            timeout=15.0,
+        )
+        results = resp.json().get("results", [])
+    tickets = []
+    for t in results[:30]:
+        tickets.append({
+            "id": t["id"],
+            "subject": t.get("subject", ""),
+            "status": t.get("status", ""),
+            "created_at": t.get("created_at", ""),
+        })
+    return {"tickets": tickets}
 
 
 @router.post("/ticket/{ticket_id}/reply")
