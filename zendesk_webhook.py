@@ -120,54 +120,69 @@ async def handle_zendesk_webhook(request: Request):
         note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
         success = await post_private_note(ticket_id, note_body)
 
-    # Auto-reply for Bewerbung/CV tickets (only on first message)
+    # Auto-reply for specific categories (only on first message)
+    auto_replied = False
     if not is_follow_up:
+        # Extract category from AI analysis (line after "KATEGORIE" header)
+        category = ""
+        lines = analysis.split("\n")
+        for i, line in enumerate(lines):
+            if "KATEGORIE" in line:
+                for j in range(i + 1, min(i + 3, len(lines))):
+                    candidate = lines[j].strip()
+                    if candidate:
+                        category = candidate.lower()
+                        break
+                break
+
+        # Categories eligible for auto-reply using the Antwortvorschlag from analysis
+        auto_reply_categories = {"versicherung", "registrierung"}
+
+        # Check for Bewerbung via keywords (more reliable than AI category for CVs)
         bewerbung_keywords = [
-            # DE
             "bewerbung", "bewerben", "lebenslauf", "stellenangebot",
-            # EN
             "cv ", "curriculum vitae", "resume", "job application", "apply for", "job offer",
-            # ES
             "candidatura", "solicitud de empleo", "oferta de trabajo", "currículum",
-            # FR
             "candidature", "offre d'emploi", "lettre de motivation",
-            # IT
-            "candidatura", "offerta di lavoro", "domanda di lavoro",
-            # NL
-            "sollicitatie", "vacature", "curriculum vitae",
-            # PL
+            "offerta di lavoro", "domanda di lavoro",
+            "sollicitatie", "vacature",
             "podanie o prace", "aplikacja", "praca kierowca", "oferta pracy",
-            # HU
             "állásjelentkezés", "önéletrajz", "álláspályázat",
-            # CS
             "žádost o práci", "životopis", "nabídka práce",
-            # SK
-            "žiadosť o prácu", "životopis", "ponuka práce",
-            # RO
+            "žiadosť o prácu", "ponuka práce",
             "cerere de angajare", "angajare", "locuri de muncă",
-            # NO/SV/DA/FI
             "jobbsøknad", "jobbansökan", "jobansøgning", "työhakemus",
-            # SI/HR
-            "prijava za delo", "prijava za posao", "životopis",
-            # LT/ET/LV
+            "prijava za delo", "prijava za posao",
             "darbo paraiška", "tööavaldus", "darba pieteikums",
-            # EL
             "αίτηση εργασίας", "βιογραφικό",
-            # BG
             "кандидатура", "автобиография", "обява за работа",
         ]
         text_lower = f"{subject} {message_body}".lower()
         is_bewerbung = any(kw in text_lower for kw in bewerbung_keywords)
 
         if is_bewerbung:
-            logger.info(f"Ticket {ticket_id} detected as Bewerbung — generating auto-reply in sender's language")
+            # Bewerbung: dedicated reply generator (separate prompt)
+            logger.info(f"Ticket {ticket_id} detected as Bewerbung — auto-reply")
             try:
                 auto_reply = await generate_bewerbung_reply(subject, message_body)
                 await post_public_reply(ticket_id, auto_reply, status="solved")
+                auto_replied = True
             except Exception as e:
-                logger.error(f"Failed to generate/send Bewerbung auto-reply for ticket {ticket_id}: {e}")
-                is_bewerbung = False
-    else:
-        is_bewerbung = False
+                logger.error(f"Failed to send Bewerbung auto-reply for ticket {ticket_id}: {e}")
 
-    return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": is_bewerbung}
+        elif category in auto_reply_categories:
+            # Versicherung / Registrierung: use Antwortvorschlag from analysis
+            reply_text = ""
+            for i, line in enumerate(lines):
+                if "ANTWORTVORSCHLAG" in line:
+                    reply_text = "\n".join(lines[i + 1:]).strip()
+                    break
+            if reply_text:
+                logger.info(f"Ticket {ticket_id} category '{category}' — auto-reply with Antwortvorschlag")
+                try:
+                    await post_public_reply(ticket_id, reply_text, status="solved")
+                    auto_replied = True
+                except Exception as e:
+                    logger.error(f"Failed to send auto-reply for ticket {ticket_id}: {e}")
+
+    return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": auto_replied}

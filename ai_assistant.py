@@ -26,9 +26,7 @@ AUFGABEN:
 3. Antwortvorschlag formulieren
 
 SPRACHE DES ANTWORTVORSCHLAGS:
-- Carrier schreibt Englisch → Antwort auf Englisch
-- Carrier schreibt Deutsch → Antwort auf Deutsch
-- Alle anderen Sprachen → Antwort auf Deutsch (Unbabel uebersetzt automatisch)
+- Antwort IMMER in der Sprache des Carriers (Polnisch → Polnisch, Spanisch → Spanisch, etc.)
 - Zusammenfassung und Kategorie IMMER auf Deutsch
 
 STIL:
@@ -71,6 +69,7 @@ DOKUMENTENPRUEFUNG/FREISCHALTUNG/STATUS:
 
 CARRIER-VERSICHERUNG: Pflicht NUR fuer Vans und Lkw, NICHT fuer Pkw, Fahrrad, Motorrad.
 Deutsche Carrier: https://www.finanzchef24.de/versicherung/frachtfuehrerversicherung
+WICHTIG: Wenn der Carrier NICHT auf Deutsch schreibt, verwende NICHT den deutschen Begriff "Frachtfuehrerversicherung". Verwende stattdessen den passenden Begriff in der Sprache des Carriers (z.B. "ubezpieczenie transportowe", "cargo insurance", "seguro de transporte" etc.).
 
 DOKUMENTE PER E-MAIL: Koennen NICHT verarbeitet werden. Carrier MUSS ueber Plattform hochladen.
 
@@ -167,6 +166,7 @@ async def generate_bewerbung_reply(subject: str, message: str) -> str:
     )
 
     return msg.content[0].text
+
 
 
 async def analyze_follow_up(subject: str, conversation: list[dict], requester_name: str | None = None) -> str:
