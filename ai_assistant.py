@@ -22,7 +22,8 @@ Analysiere eingehende Tickets von Transportpartnern (Carriern).
 
 AUFGABEN:
 1. Zusammenfassung des Anliegens (1-2 Saetze, IMMER Deutsch)
-2. Kategorie bestimmen: Registrierung | Dokumente | Auftraege | Rechnung/Zahlung | Versicherung | App/Technik | Bewerbung | Sonstiges
+2. Kategorie bestimmen: Registrierung | Dokumente | Auftraege | Rechnung/Zahlung | Versicherung | App/Technik | Bewerbung | Kundenanfrage | Sonstiges
+   WICHTIG: "Kundenanfrage" verwenden wenn der Absender KEIN Carrier/Fahrer ist, sondern ein KUNDE oder eine FIRMA die Logistik-/Transportdienstleistungen BUCHEN moechte (z.B. Palettenversand, Lagerung, Distribution). Solche Tickets gehoeren NICHT in Carrier Support.
 3. Antwortvorschlag formulieren
 
 SPRACHE DES ANTWORTVORSCHLAGS:
