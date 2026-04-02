@@ -72,6 +72,10 @@ AUFTRAEGE/ARBEIT IN REGION:
 - Verweise auf oeffentliche Transportliste: https://app.dagoexpress.com/SPRACHE/public-transports (de, en, es, pl, fr, it, ro, nl; Deutsch: ohne Sprachcode)
 - WICHTIG: Zeigt ZULETZT DURCHGEFUEHRTE Transporte, NICHT aktuelle Auftraege! Sage "zuletzt durchgefuehrte Transporte" oder "oeffentliche Transportliste, um sich ein Bild zu machen"
 - Keine volle Auslastung garantiert
+- Auftraege werden NICHT zugewiesen — Carrier suchen selbst und geben Angebote ab
+- Solo Driver: Auftraege in der DAGO Express Driver App unter "Auftraege finden". Bieten nur im Radius der aktuellen GPS-Position moeglich.
+- Fleet Manager: Auftraege im CarrierHub (Webseite). Bei heutiger Abholung prueft das System ob der Fahrer rechtzeitig den Abholort erreichen kann. Bei Abholung an spaeteren Tagen gibt es KEINE Entfernungsbeschraenkung.
+- "Zu weit weg von der Abholung" = System berechnet dass Fahrer nicht rechtzeitig zum Abholort kommt (nur bei heutiger Abholung)
 
 FAHRZEUGDATEN/TRANSPORTANGEBOT:
 - Das ist ein Carrier der Auftraege ausfuehren moechte, KEIN Kunde. Erst registrieren, dann ueber Plattform Angebot abgeben.
