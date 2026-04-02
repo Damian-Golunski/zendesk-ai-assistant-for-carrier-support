@@ -125,6 +125,22 @@ async def handle_zendesk_webhook(request: Request):
 
         note_body = f"🤖 AI Carrier Support Assistant (Follow-up)\n\n{analysis}"
         success = await post_private_note(ticket_id, note_body)
+
+        # Check if AI flagged this follow-up for auto-reply
+        if "AUTO-REPLY: JA" in analysis:
+            lines = analysis.split("\n")
+            reply_text = ""
+            for i, line in enumerate(lines):
+                if "ANTWORTVORSCHLAG" in line:
+                    reply_text = "\n".join(lines[i + 1:]).strip()
+                    break
+            if reply_text:
+                logger.info(f"Ticket {ticket_id} follow-up auto-reply (AI flagged AUTO-REPLY: JA)")
+                try:
+                    await post_public_reply(ticket_id, reply_text, status="solved")
+                    return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
+                except Exception as e:
+                    logger.error(f"Failed to send follow-up auto-reply for ticket {ticket_id}: {e}")
     else:
         # Run AI analysis
         try:
