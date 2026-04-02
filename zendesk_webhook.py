@@ -226,7 +226,7 @@ async def handle_zendesk_webhook(request: Request):
                 break
 
         # Categories eligible for auto-reply using the Antwortvorschlag from analysis
-        auto_reply_categories = {"versicherung", "registrierung", "auftraege", "dokumente"}
+        auto_reply_categories = {"versicherung", "registrierung", "auftraege", "dokumente", "app/technik"}
         # Normalize category: replace umlauts and encoding variants
         import unicodedata
         category = unicodedata.normalize("NFC", category)

@@ -83,6 +83,11 @@ DOKUMENTENPRUEFUNG/FREISCHALTUNG/STATUS:
   2. Dokumente pruefen und Status aktualisieren
   3. Antwortvorschlag ggf. anpassen und senden
 
+APP/TECHNIK PROBLEME (SMS-Code, Login, Verifizierung, App-Fehler):
+- IMMER nach registrierter E-Mail-Adresse UND Telefonnummer fragen — beides wird zur Verifizierung benoetigt
+- Wenn der Carrier keine Telefonnummer oder E-Mail im Ticket angibt, MUSS danach gefragt werden
+- Ticket OFFEN lassen (nicht solved) — warten auf Antwort des Carriers
+
 CARRIER-VERSICHERUNG: Pflicht NUR fuer Vans und Lkw, NICHT fuer Pkw, Fahrrad, Motorrad.
 Deutsche Carrier: https://www.finanzchef24.de/versicherung/frachtfuehrerversicherung
 WICHTIG: Wenn der Carrier NICHT auf Deutsch schreibt, verwende KEINE deutschen Fachbegriffe — weder im Text noch in Klammern. Verwende stattdessen den passenden Begriff in der Sprache des Carriers (z.B. "ubezpieczenie transportowe", "cargo insurance", "seguro de transporte"). NICHT "ubezpieczenie transportowe (Frachtfuehrerversicherung)" oder "działalność gospodarcza (Gewerbeanmeldung)".
