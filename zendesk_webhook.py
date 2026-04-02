@@ -215,7 +215,7 @@ async def handle_zendesk_webhook(request: Request):
                 break
 
         # Categories eligible for auto-reply using the Antwortvorschlag from analysis
-        auto_reply_categories = {"versicherung", "registrierung", "auftraege"}
+        auto_reply_categories = {"versicherung", "registrierung", "auftraege", "aufträge"}
 
         # Check for Bewerbung via keywords (more reliable than AI category for CVs)
         bewerbung_keywords = [
