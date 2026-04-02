@@ -215,11 +215,11 @@ async def handle_zendesk_webhook(request: Request):
                 break
 
         # Categories eligible for auto-reply using the Antwortvorschlag from analysis
-        auto_reply_categories = {"versicherung", "registrierung"}
-        # Also match Aufträge with any encoding variant
-        if category.startswith("auftr") or category.startswith("auftr"):
-            category = "auftraege"
-        auto_reply_categories.add("auftraege")
+        auto_reply_categories = {"versicherung", "registrierung", "auftraege"}
+        # Normalize category: replace umlauts and encoding variants
+        import unicodedata
+        category = unicodedata.normalize("NFC", category)
+        category = category.replace("ä", "ae").replace("ü", "ue").replace("ö", "oe")
 
         # Check for Bewerbung via keywords (more reliable than AI category for CVs)
         bewerbung_keywords = [
