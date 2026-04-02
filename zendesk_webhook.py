@@ -38,6 +38,18 @@ async def get_comments(ticket_id: int):
     return {"ticket_id": ticket_id, "subject": subject, "comments": result}
 
 
+@router.post("/ticket/{ticket_id}/reply")
+async def send_reply(ticket_id: int, request: Request):
+    """Send a public reply on a ticket and optionally set status."""
+    body = await request.json()
+    text = body.get("body", "")
+    status = body.get("status", "solved")
+    if not text:
+        raise HTTPException(status_code=400, detail="body is required")
+    success = await post_public_reply(ticket_id, text, status=status)
+    return {"status": "ok" if success else "error", "ticket_id": ticket_id}
+
+
 @router.post("/webhook/zendesk")
 async def handle_zendesk_webhook(request: Request):
     """Handle Zendesk webhook for new/updated tickets.
@@ -110,6 +122,9 @@ async def handle_zendesk_webhook(request: Request):
             is_requester = c.get("author_id") == requester_id
             is_public = c.get("public", True)
             text = c.get("plain_body") or c.get("body", "")
+            # Skip previous AI notes to avoid polluting context
+            if not is_public and "🤖 AI Carrier Support" in text:
+                continue
             if is_requester and is_public:
                 conversation.append({"role": "Carrier", "text": text})
             elif not is_requester and is_public:
