@@ -1,17 +1,43 @@
 """Zendesk Carrier Support AI Assistant for DAGO Express."""
 import logging
 import os
+from contextlib import asynccontextmanager
 
 from dotenv import load_dotenv
-from fastapi import FastAPI
 
 load_dotenv()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-from zendesk_webhook import router as webhook_router
+# Validate config before importing anything else (punkt 3)
+from config import validate_config
+validate_config()
 
-app = FastAPI(title="Zendesk Carrier Support AI Assistant")
+# Sentry for error alerting (punkt 7)
+import sentry_sdk
+sentry_dsn = os.getenv("SENTRY_DSN")
+if sentry_dsn:
+    sentry_sdk.init(dsn=sentry_dsn, traces_sample_rate=0.1)
+    logging.getLogger(__name__).info("Sentry initialized for error tracking")
+
+from fastapi import FastAPI, Request
+from fastapi.responses import JSONResponse
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from zendesk_api import close_client
+from zendesk_webhook import router as webhook_router, limiter
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    yield
+    # Cleanup global httpx client on shutdown (punkt 12)
+    await close_client()
+
+
+app = FastAPI(title="Zendesk Carrier Support AI Assistant", debug=False, lifespan=lifespan)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.include_router(webhook_router)
 
 

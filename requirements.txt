@@ -1,5 +1,7 @@
-fastapi
-uvicorn[standard]
-httpx
-anthropic
-python-dotenv
+fastapi==0.115.12
+uvicorn[standard]==0.34.2
+httpx==0.28.1
+anthropic==0.52.0
+python-dotenv==1.1.0
+slowapi==0.1.9
+sentry-sdk[fastapi]==2.29.1
