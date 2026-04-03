@@ -394,8 +394,7 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
                     break
             # --- Punkt 1: Validate ---
             if reply_text and _validate_auto_reply(analysis, reply_text):
-                keep_open_categories = {"app/technik"}
-                reply_status = "open" if category in keep_open_categories else "solved"
+                reply_status = "solved"
                 logger.info(f"Ticket {ticket_id} category '{category}' — auto-reply (status={reply_status})")
                 try:
                     await post_public_reply(ticket_id, reply_text, status=reply_status)
