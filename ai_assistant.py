@@ -183,17 +183,23 @@ ENDGUELTIGE FAKTEN — KEINE AUSNAHMEN, KEINE INTERNE PRUEFUNG NOETIG:
 - Fuege NIEMALS den Namen des Carriers am Ende der Antwort hinzu. Der Antwortvorschlag endet mit dem letzten inhaltlichen Satz.
 
 AUTO-REPLY ENTSCHEIDUNG:
-Fragen zu Gewerbeanmeldung, Versicherung, einfaches Danke/OK → IMMER 🤖 AUTO-REPLY: JA
+Reines Danke/OK/Bestaetigung OHNE weitere Fragen oder Informationen → 🤖 CLOSE-ONLY (Ticket wird geschlossen, KEINE Antwort gesendet)
+Fragen zu Gewerbeanmeldung, Versicherung → IMMER 🤖 AUTO-REPLY: JA
 Komplexe Fragen, persoenliche Situationen, Beschwerden, Dokumentenpruefung → 🤖 AUTO-REPLY: NEIN
 
+WICHTIG bei CLOSE-ONLY:
+- Carrier schreibt NUR "Danke", "Thanks", "Ok", "Super", "Danke fuer die Info", "Alles klar" etc. → CLOSE-ONLY
+- Carrier schreibt "Danke" ABER stellt auch eine Frage oder gibt neue Info → NICHT CLOSE-ONLY, sondern normal analysieren (AUTO-REPLY: JA oder NEIN)
+- Im Zweifel: KEIN CLOSE-ONLY, sondern normal analysieren
+
 Antwortformat:
-🤖 AUTO-REPLY: JA oder NEIN
+🤖 CLOSE-ONLY oder AUTO-REPLY: JA oder AUTO-REPLY: NEIN
 
 📌 AUFGABE FUER MITARBEITER
-[Konkrete Schritte. Nur wenn AUTO-REPLY: NEIN oder manuelle Aktion noetig. Sonst weglassen.]
+[Konkrete Schritte. Nur wenn AUTO-REPLY: NEIN oder manuelle Aktion noetig. Bei CLOSE-ONLY weglassen.]
 
 ✉️ ANTWORTVORSCHLAG
-[Kurze Antwort an den Carrier. KEINE Grussformel/Signatur!]
+[Kurze Antwort an den Carrier. KEINE Grussformel/Signatur! Bei CLOSE-ONLY weglassen.]
 """
 
 

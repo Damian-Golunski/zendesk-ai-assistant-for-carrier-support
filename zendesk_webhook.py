@@ -260,41 +260,6 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
     success = False
 
     if is_follow_up:
-        # Quick-close: if last message is ONLY a thank-you (short, no real content)
-        last_comment = public_comments[-1]
-        last_text = (last_comment.get("plain_body") or last_comment.get("body", "")).strip()
-        last_text_lower = last_text.lower()
-        last_text_clean = last_text_lower.rstrip("!.,;:) ")
-        thank_you_phrases = [
-            "danke", "dankeschön", "dankeschoen", "vielen dank", "besten dank",
-            "danke schön", "danke sehr",
-            "thanks", "thank you", "thx", "ty",
-            "dziękuję", "dziekuje", "dzięki", "dzienki", "dzieki",
-            "gracias", "merci", "grazie", "bedankt", "dank u",
-            "mulțumesc", "multumesc", "ačiū", "aciu",
-            "děkuji", "dekuji", "ďakujem", "dakujem",
-            "köszönöm", "koszonom",
-            "hvala", "tack", "kiitos",
-            "спасибо", "благодаря",
-            "ok", "okay", "super", "alles klar", "perfekt", "perfect",
-            "top", "great", "gut", "prima", "passt",
-        ]
-        # Only auto-close if the ENTIRE message is just a thank-you phrase
-        # (exact match after stripping punctuation). This prevents closing
-        # messages like "Danke, aber ich habe noch eine Frage..."
-        is_pure_thanks = last_text_clean in thank_you_phrases
-        if is_pure_thanks:
-            logger.info(f"Ticket {ticket_id} follow-up is just a thank-you ({len(last_text)} chars) — closing without AI")
-            from zendesk_api import _get_client, _base_url, _auth
-            client = _get_client()
-            await client.put(
-                f"{_base_url()}/tickets/{ticket_id}.json",
-                auth=_auth(),
-                json={"ticket": {"status": "solved"}},
-                timeout=10.0,
-            )
-            await add_tag(ticket_id, current_marker)
-            return {"status": "ok", "ticket_id": ticket_id, "auto_closed": True, "reason": "thank_you_followup"}
 
         # --- Punkt 11: Exclude internal notes from LLM context ---
         conversation = []
@@ -315,6 +280,20 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
         except Exception as e:
             logger.error(f"AI follow-up analysis failed for ticket {ticket_id}: {e}")
             return {"status": "error", "reason": "ai analysis failed"}
+
+        # Check if AI flagged as pure thank-you — close without reply
+        if "CLOSE-ONLY" in analysis:
+            logger.info(f"Ticket {ticket_id} follow-up is a thank-you — closing without reply")
+            from zendesk_api import _get_client, _base_url, _auth
+            client = _get_client()
+            await client.put(
+                f"{_base_url()}/tickets/{ticket_id}.json",
+                auth=_auth(),
+                json={"ticket": {"status": "solved"}},
+                timeout=10.0,
+            )
+            await add_tag(ticket_id, idempotency_marker)
+            return {"status": "ok", "ticket_id": ticket_id, "auto_closed": True, "reason": "thank_you_followup"}
 
         # Check if AI flagged this follow-up for auto-reply
         if "AUTO-REPLY: JA" in analysis:
