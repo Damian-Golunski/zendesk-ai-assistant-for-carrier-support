@@ -57,11 +57,24 @@ async def list_recent_carrier_support():
     return {"count": len(tickets), "tickets": tickets}
 
 
+async def _verify_carrier_support(ticket_id: int):
+    """Verify ticket belongs to Carrier Support group. Raises 403 if not."""
+    carrier_group_id = await resolve_carrier_support_group_id()
+    if not carrier_group_id:
+        raise HTTPException(status_code=503, detail="Could not resolve Carrier Support group")
+    ticket = await get_ticket(ticket_id)
+    if not ticket:
+        raise HTTPException(status_code=404, detail="Ticket not found")
+    if ticket.get("group_id") != carrier_group_id:
+        raise HTTPException(status_code=403, detail="Ticket does not belong to Carrier Support group")
+    return ticket
+
+
 @router.get("/ticket/{ticket_id}/comments")
 async def get_comments(ticket_id: int):
     """Read all comments for a ticket (debug/review endpoint)."""
+    ticket = await _verify_carrier_support(ticket_id)
     comments = await get_ticket_comments(ticket_id)
-    ticket = await get_ticket(ticket_id)
     subject = ticket.get("subject", "") if ticket else ""
     result = []
     for c in comments:
@@ -77,6 +90,7 @@ async def get_comments(ticket_id: int):
 @router.post("/ticket/{ticket_id}/note")
 async def send_note(ticket_id: int, request: Request):
     """Post a private note on a ticket."""
+    await _verify_carrier_support(ticket_id)
     body = await request.json()
     text = body.get("body", "")
     if not text:
@@ -88,6 +102,7 @@ async def send_note(ticket_id: int, request: Request):
 @router.post("/ticket/{ticket_id}/reply")
 async def send_reply(ticket_id: int, request: Request):
     """Send a public reply on a ticket and optionally set status."""
+    await _verify_carrier_support(ticket_id)
     body = await request.json()
     text = body.get("body", "")
     status = body.get("status", "solved")
@@ -130,11 +145,14 @@ async def handle_zendesk_webhook(request: Request):
     if not ticket:
         return {"status": "error", "reason": "ticket not found"}
 
-    # Check if ticket belongs to Carrier Support group
+    # Check if ticket belongs to Carrier Support group (FAIL-CLOSED)
     carrier_group_id = await resolve_carrier_support_group_id()
-    ticket_group_id = ticket.get("group_id")
+    if not carrier_group_id:
+        logger.error("Could not resolve Carrier Support group ID — refusing to process ticket")
+        return {"status": "error", "reason": "carrier support group not resolved"}
 
-    if carrier_group_id and ticket_group_id != carrier_group_id:
+    ticket_group_id = ticket.get("group_id")
+    if ticket_group_id != carrier_group_id:
         logger.info(f"Ticket {ticket_id} not in Carrier Support group (group_id={ticket_group_id}), skipping")
         return {"status": "skipped", "reason": "not carrier support group"}
 
