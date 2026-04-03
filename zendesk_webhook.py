@@ -333,9 +333,8 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
             elif reply_text:
                 logger.warning(f"Ticket {ticket_id} auto-reply blocked by safety validation")
 
-        # No auto-reply — post as private note for agent
-        note_body = f"🤖 AI Carrier Support Assistant (Follow-up)\n\n{analysis}"
-        success = await post_private_note(ticket_id, note_body)
+        # No auto-reply — skip, let agent handle it
+        logger.info(f"Ticket {ticket_id} follow-up: no auto-reply, leaving for agent")
         await add_tag(ticket_id, idempotency_marker)
     else:
         # Run AI analysis
@@ -423,9 +422,8 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
             elif reply_text:
                 logger.warning(f"Ticket {ticket_id} auto-reply blocked by safety validation")
 
-        # No auto-reply — post as private note for agent
-        note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
-        success = await post_private_note(ticket_id, note_body)
+        # No auto-reply — skip, let agent handle it
+        logger.info(f"Ticket {ticket_id}: no auto-reply, leaving for agent")
         await add_tag(ticket_id, idempotency_marker)
 
-    return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": False}
+    return {"status": "ok", "ticket_id": ticket_id, "auto_replied": False}
