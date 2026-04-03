@@ -43,8 +43,11 @@ async def verify_api_key(api_key: str = Security(api_key_header)):
 # --- Punkt 8: Rate limiting ---
 limiter = Limiter(key_func=get_remote_address)
 
-# --- Punkt 2: Idempotency tag ---
+# --- Punkt 2: Idempotency ---
 AI_PROCESSED_TAG = "ai_processed"
+# In-memory lock to prevent concurrent processing of the same ticket
+_processing_tickets: set[int] = set()
+_processing_lock = asyncio.Lock()
 
 
 @router.get("/tickets/carrier-support/recent", dependencies=[Depends(verify_api_key)])
@@ -194,13 +197,27 @@ async def handle_zendesk_webhook(request: Request):
     ticket_id = int(ticket_id)
     logger.info(f"Webhook received for ticket {ticket_id}")
 
+    # --- In-memory lock: prevent concurrent processing of same ticket ---
+    async with _processing_lock:
+        if ticket_id in _processing_tickets:
+            logger.info(f"Ticket {ticket_id} already being processed, skipping duplicate webhook")
+            return {"status": "skipped", "reason": "already in progress"}
+        _processing_tickets.add(ticket_id)
+
+    try:
+        return await _handle_ticket(ticket_id)
+    finally:
+        _processing_tickets.discard(ticket_id)
+
+
+async def _handle_ticket(ticket_id: int):
+    """Handle ticket after acquiring lock."""
     # Fetch the ticket
     ticket = await get_ticket(ticket_id)
     if not ticket:
         return {"status": "error", "reason": "ticket not found"}
 
     # --- Punkt 2: Idempotency check ---
-    # Use comment count in tag to allow follow-up processing but prevent duplicates
     existing_tags = ticket.get("tags", [])
     comment_count = len([c for c in (await get_ticket_comments(ticket_id)) if c.get("public", True)])
     current_marker = f"ai_processed_{comment_count}"
