@@ -260,15 +260,16 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
     success = False
 
     if is_follow_up:
-        # Quick-close: if last message is just "thank you" — close ticket without AI
+        # Quick-close: if last message is ONLY a thank-you (short, no real content)
         last_comment = public_comments[-1]
-        last_text = (last_comment.get("plain_body") or last_comment.get("body", "")).strip().lower()
-        # Remove punctuation for matching
-        last_text_clean = last_text.rstrip("!.,;:)")
+        last_text = (last_comment.get("plain_body") or last_comment.get("body", "")).strip()
+        last_text_lower = last_text.lower()
+        last_text_clean = last_text_lower.rstrip("!.,;:) ")
         thank_you_phrases = [
             "danke", "dankeschön", "dankeschoen", "vielen dank", "besten dank",
+            "danke schön", "danke sehr",
             "thanks", "thank you", "thx", "ty",
-            "dziękuję", "dziekuje", "dziękuje", "dzięki", "dzienki", "dzieki",
+            "dziękuję", "dziekuje", "dzięki", "dzienki", "dzieki",
             "gracias", "merci", "grazie", "bedankt", "dank u",
             "mulțumesc", "multumesc", "ačiū", "aciu",
             "děkuji", "dekuji", "ďakujem", "dakujem",
@@ -278,8 +279,12 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
             "ok", "okay", "super", "alles klar", "perfekt", "perfect",
             "top", "great", "gut", "prima", "passt",
         ]
-        if last_text_clean in thank_you_phrases or len(last_text) < 30 and any(p in last_text for p in thank_you_phrases):
-            logger.info(f"Ticket {ticket_id} follow-up is just a thank-you — closing without AI")
+        # Only auto-close if the ENTIRE message is just a thank-you phrase
+        # (exact match after stripping punctuation). This prevents closing
+        # messages like "Danke, aber ich habe noch eine Frage..."
+        is_pure_thanks = last_text_clean in thank_you_phrases
+        if is_pure_thanks:
+            logger.info(f"Ticket {ticket_id} follow-up is just a thank-you ({len(last_text)} chars) — closing without AI")
             from zendesk_api import _get_client, _base_url, _auth
             client = _get_client()
             await client.put(
