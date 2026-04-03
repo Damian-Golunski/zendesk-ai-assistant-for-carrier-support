@@ -200,9 +200,12 @@ async def handle_zendesk_webhook(request: Request):
         return {"status": "error", "reason": "ticket not found"}
 
     # --- Punkt 2: Idempotency check ---
+    # Use comment count in tag to allow follow-up processing but prevent duplicates
     existing_tags = ticket.get("tags", [])
-    if AI_PROCESSED_TAG in existing_tags:
-        logger.info(f"Ticket {ticket_id} already processed (has '{AI_PROCESSED_TAG}' tag), skipping")
+    comment_count = len([c for c in (await get_ticket_comments(ticket_id)) if c.get("public", True)])
+    current_marker = f"ai_processed_{comment_count}"
+    if current_marker in existing_tags:
+        logger.info(f"Ticket {ticket_id} already processed for {comment_count} comments, skipping")
         return {"status": "skipped", "reason": "already processed"}
 
     # Check if ticket belongs to Carrier Support group (FAIL-CLOSED)
@@ -219,7 +222,7 @@ async def handle_zendesk_webhook(request: Request):
     # --- Punkt 6: Overall timeout for the entire processing ---
     try:
         result = await asyncio.wait_for(
-            _process_ticket(ticket_id, ticket),
+            _process_ticket(ticket_id, ticket, current_marker),
             timeout=60.0,
         )
         return result
@@ -228,7 +231,7 @@ async def handle_zendesk_webhook(request: Request):
         return {"status": "error", "reason": "processing timeout"}
 
 
-async def _process_ticket(ticket_id: int, ticket: dict) -> dict:
+async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str) -> dict:
     """Process a single ticket — extracted for timeout wrapping."""
 
     # Get comments
@@ -257,6 +260,37 @@ async def _process_ticket(ticket_id: int, ticket: dict) -> dict:
     success = False
 
     if is_follow_up:
+        # Quick-close: if last message is just "thank you" — close ticket without AI
+        last_comment = public_comments[-1]
+        last_text = (last_comment.get("plain_body") or last_comment.get("body", "")).strip().lower()
+        # Remove punctuation for matching
+        last_text_clean = last_text.rstrip("!.,;:)")
+        thank_you_phrases = [
+            "danke", "dankeschön", "dankeschoen", "vielen dank", "besten dank",
+            "thanks", "thank you", "thx", "ty",
+            "dziękuję", "dziekuje", "dziękuje", "dzięki", "dzienki", "dzieki",
+            "gracias", "merci", "grazie", "bedankt", "dank u",
+            "mulțumesc", "multumesc", "ačiū", "aciu",
+            "děkuji", "dekuji", "ďakujem", "dakujem",
+            "köszönöm", "koszonom",
+            "hvala", "tack", "kiitos",
+            "спасибо", "благодаря",
+            "ok", "okay", "super", "alles klar", "perfekt", "perfect",
+            "top", "great", "gut", "prima", "passt",
+        ]
+        if last_text_clean in thank_you_phrases or len(last_text) < 30 and any(p in last_text for p in thank_you_phrases):
+            logger.info(f"Ticket {ticket_id} follow-up is just a thank-you — closing without AI")
+            from zendesk_api import _get_client, _base_url, _auth
+            client = _get_client()
+            await client.put(
+                f"{_base_url()}/tickets/{ticket_id}.json",
+                auth=_auth(),
+                json={"ticket": {"status": "solved"}},
+                timeout=10.0,
+            )
+            await add_tag(ticket_id, current_marker)
+            return {"status": "ok", "ticket_id": ticket_id, "auto_closed": True, "reason": "thank_you_followup"}
+
         # --- Punkt 11: Exclude internal notes from LLM context ---
         conversation = []
         for c in comments:
@@ -290,7 +324,7 @@ async def _process_ticket(ticket_id: int, ticket: dict) -> dict:
                 logger.info(f"Ticket {ticket_id} follow-up auto-reply (AI flagged AUTO-REPLY: JA)")
                 try:
                     await post_public_reply(ticket_id, reply_text, status="solved")
-                    await add_tag(ticket_id, AI_PROCESSED_TAG)
+                    await add_tag(ticket_id, idempotency_marker)
                     await add_tag(ticket_id, "ai_auto_replied")
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 except Exception as e:
@@ -301,7 +335,7 @@ async def _process_ticket(ticket_id: int, ticket: dict) -> dict:
         # No auto-reply — post as private note for agent
         note_body = f"🤖 AI Carrier Support Assistant (Follow-up)\n\n{analysis}"
         success = await post_private_note(ticket_id, note_body)
-        await add_tag(ticket_id, AI_PROCESSED_TAG)
+        await add_tag(ticket_id, idempotency_marker)
     else:
         # Run AI analysis
         try:
@@ -360,7 +394,7 @@ async def _process_ticket(ticket_id: int, ticket: dict) -> dict:
                 # --- Punkt 1: Validate ---
                 if _validate_auto_reply("BEWERBUNG", auto_reply):
                     await post_public_reply(ticket_id, auto_reply, status="solved")
-                    await add_tag(ticket_id, AI_PROCESSED_TAG)
+                    await add_tag(ticket_id, idempotency_marker)
                     await add_tag(ticket_id, "ai_auto_replied")
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 else:
@@ -381,7 +415,7 @@ async def _process_ticket(ticket_id: int, ticket: dict) -> dict:
                 logger.info(f"Ticket {ticket_id} category '{category}' — auto-reply (status={reply_status})")
                 try:
                     await post_public_reply(ticket_id, reply_text, status=reply_status)
-                    await add_tag(ticket_id, AI_PROCESSED_TAG)
+                    await add_tag(ticket_id, idempotency_marker)
                     await add_tag(ticket_id, "ai_auto_replied")
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 except Exception as e:
@@ -392,6 +426,6 @@ async def _process_ticket(ticket_id: int, ticket: dict) -> dict:
         # No auto-reply — post as private note for agent
         note_body = f"🤖 AI Carrier Support Assistant\n\n{analysis}"
         success = await post_private_note(ticket_id, note_body)
-        await add_tag(ticket_id, AI_PROCESSED_TAG)
+        await add_tag(ticket_id, idempotency_marker)
 
     return {"status": "ok" if success else "error", "ticket_id": ticket_id, "auto_replied": False}
