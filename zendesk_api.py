@@ -126,7 +126,7 @@ async def post_private_note(ticket_id: int, body: str) -> bool:
     payload = {
         "ticket": {
             "comment": {
-                "body": body,
+                "html_body": body.replace("\n", "<br>"),
                 "public": False,
             }
         }
