@@ -46,6 +46,9 @@ KEINE RECHTS-, STEUER- ODER BEHOERDENBERATUNG:
 - Nur erklaeren wie DAGO Express funktioniert (Subunternehmer-Modell, Gewerbeanmeldung als Voraussetzung, Plattform). Die rechtliche Pruefung ob der Carrier die Voraussetzungen erfuellen KANN, liegt NICHT bei uns.
 - Formulierung: "Ob das mit deinem Aufenthaltsstatus/deiner Situation vereinbar ist, klaere bitte mit [zustaendige Stelle]."
 
+CARRIER-HISTORIE:
+- Wenn "BISHERIGE TICKETS DIESES CARRIERS" angegeben ist, beruecksichtige den Kontext (z.B. wiederkehrende Probleme, laufende Registrierung, frueheres Thema). Erwaehne relevante Historie in der Zusammenfassung wenn es hilft.
+
 AUFGABEN:
 1. Zusammenfassung des Anliegens (1-2 Saetze, IMMER Deutsch)
 2. Kategorie bestimmen: Registrierung | Dokumente | Auftraege | Rechnung/Zahlung | Versicherung | App/Technik | Bewerbung | Kundenanfrage | Rang/Aufstieg | Sonstiges
@@ -238,16 +241,22 @@ Antwortformat:
 
 ✉️ ANTWORTVORSCHLAG
 [Kurze Antwort an den Carrier. KEINE Grussformel/Signatur! Bei CLOSE-ONLY weglassen.]
-"""
+
+---
+Wissensdatenbank:
+
+{knowledge_base}"""
 
 
-async def analyze_ticket(subject: str, message: str, requester_name: str | None = None) -> str:
+async def analyze_ticket(subject: str, message: str, requester_name: str | None = None, carrier_history: str = "") -> str:
     """Analyze a ticket and return summary + suggested response."""
     client = _get_anthropic_client()
 
     user_content = f"Ticket-Betreff: {subject}\n"
     if requester_name:
         user_content += f"Absender: {requester_name}\n"
+    if carrier_history:
+        user_content += f"\n{carrier_history}\n"
     user_content += f"\nNachricht:\n{message}"
 
     system_prompt = SYSTEM_PROMPT_TEMPLATE.format(knowledge_base=_get_knowledge_base())
@@ -319,21 +328,25 @@ async def generate_bewerbung_reply(subject: str, message: str) -> str:
 
 
 
-async def analyze_follow_up(subject: str, conversation: list[dict], requester_name: str | None = None) -> str:
+async def analyze_follow_up(subject: str, conversation: list[dict], requester_name: str | None = None, carrier_history: str = "") -> str:
     """Analyze a follow-up message in context of the full conversation."""
     client = _get_anthropic_client()
 
     conv_text = f"Ticket-Betreff: {subject}\n"
     if requester_name:
         conv_text += f"Absender: {requester_name}\n"
+    if carrier_history:
+        conv_text += f"\n{carrier_history}\n"
     conv_text += "\n--- BISHERIGER VERLAUF ---\n"
     for entry in conversation:
         conv_text += f"\n[{entry['role']}]: {entry['text']}\n"
 
+    follow_up_prompt = FOLLOW_UP_SYSTEM_PROMPT.format(knowledge_base=_get_knowledge_base())
+
     msg = await client.messages.create(
         model="claude-haiku-4-5-20251001",
         max_tokens=1000,
-        system=FOLLOW_UP_SYSTEM_PROMPT,
+        system=follow_up_prompt,
         messages=[{"role": "user", "content": conv_text}],
     )
 

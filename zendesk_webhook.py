@@ -13,6 +13,7 @@ from zendesk_api import (
     get_ticket,
     get_ticket_comments,
     get_requester,
+    get_requester_recent_tickets,
     post_private_note,
     post_public_reply,
     add_tag,
@@ -273,6 +274,19 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
     first_comment = public_comments[0]
     message_body = first_comment.get("plain_body") or first_comment.get("body", "")
 
+    # Fetch carrier's recent ticket history for context
+    carrier_history = ""
+    if requester_id:
+        try:
+            recent_tickets = await get_requester_recent_tickets(requester_id, exclude_ticket_id=ticket_id)
+            if recent_tickets:
+                history_lines = []
+                for rt in recent_tickets:
+                    history_lines.append(f"- #{rt['id']} \"{rt['subject']}\" ({rt['status']}, {rt['created_at'][:10]})")
+                carrier_history = "BISHERIGE TICKETS DIESES CARRIERS:\n" + "\n".join(history_lines)
+        except Exception as e:
+            logger.warning(f"Failed to fetch carrier history for ticket {ticket_id}: {e}")
+
     is_follow_up = len(public_comments) > 1
     success = False
 
@@ -293,7 +307,7 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
                 conversation.append({"role": "Agent", "text": text})
 
         try:
-            analysis = await analyze_follow_up(subject, conversation, requester_name)
+            analysis = await analyze_follow_up(subject, conversation, requester_name, carrier_history)
         except Exception as e:
             logger.error(f"AI follow-up analysis failed for ticket {ticket_id}: {e}")
             return {"status": "error", "reason": "ai analysis failed"}
@@ -339,7 +353,7 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
     else:
         # Run AI analysis
         try:
-            analysis = await analyze_ticket(subject, message_body, requester_name)
+            analysis = await analyze_ticket(subject, message_body, requester_name, carrier_history)
         except Exception as e:
             logger.error(f"AI analysis failed for ticket {ticket_id}: {e}")
             return {"status": "error", "reason": "ai analysis failed"}

@@ -121,6 +121,37 @@ async def add_tag(ticket_id: int, tag: str) -> bool:
     return True
 
 
+async def get_requester_recent_tickets(requester_id: int, exclude_ticket_id: int | None = None, limit: int = 5) -> list[dict]:
+    """Fetch recent tickets from the same requester (for carrier history context)."""
+    client = _get_client()
+    resp = await client.get(
+        f"{_base_url()}/search.json",
+        params={
+            "query": f"type:ticket requester_id:{requester_id} order_by:created_at sort:desc",
+            "per_page": limit + 1,
+        },
+        auth=_auth(),
+        timeout=10.0,
+    )
+    if resp.status_code != 200:
+        logger.error(f"Failed to fetch requester {requester_id} tickets: {resp.status_code}")
+        return []
+    results = resp.json().get("results", [])
+    tickets = []
+    for t in results:
+        if exclude_ticket_id and t["id"] == exclude_ticket_id:
+            continue
+        tickets.append({
+            "id": t["id"],
+            "subject": t.get("subject", ""),
+            "status": t.get("status", ""),
+            "created_at": t.get("created_at", ""),
+        })
+        if len(tickets) >= limit:
+            break
+    return tickets
+
+
 async def post_private_note(ticket_id: int, body: str) -> bool:
     """Post an internal (private) note on a ticket."""
     payload = {
