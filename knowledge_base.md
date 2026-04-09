@@ -13,6 +13,13 @@ Steuer-ID: DE342078274
 
 ## 1. Allgemeine FAQ
 
+### Benachrichtigungen über neue verfügbare Transporte
+
+Ja, es gibt die Möglichkeit, per E-Mail über neue verfügbare Transporte informiert zu werden:
+
+- **Fleet Manager (Flottenmanager — verwaltet mehrere Fahrer):** Im CarrierHub unter **Einstellungen** → Sektion **„Über neue verfügbare Transporte informieren"** aktivieren. Dort kann der Umkreis (km) eingestellt und die E-Mail-Benachrichtigung aktiviert werden.
+- **Solo Driver (selbständiger Einzelfahrer — fährt selbst):** In der DAGO Express Driver App unter **Profil → Benachrichtigungen** → **„Über neue verfügbare Transporte informieren"** aktivieren. Auch hier kann der Umkreis (km) eingestellt und die E-Mail-Benachrichtigung aktiviert werden.
+
 ### Muss auf dem Gewerbeschein „Transport" oder „Kurierfahrer" stehen?
 
 Nein, der Gewerbeschein muss keinen speziellen Eintrag wie „Transport" oder „Kurierfahrer" enthalten. Wichtig ist lediglich, dass eine aktive Gewerbeanmeldung vorliegt. Ein konkreter, spezieller Eintrag zum Thema Transport ist nicht erforderlich.
