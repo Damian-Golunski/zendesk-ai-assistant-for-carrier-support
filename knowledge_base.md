@@ -636,4 +636,66 @@ pt: https://dagoexpress.com/transportpartner-werden/ (kein PT — verwende DE)
 
 ---
 
+## Partner-Rangsystem
+
+DAGO Express hat ein Qualitäts-Rangsystem für Carrier. Es gibt 4 Ränge mit steigenden Vorteilen:
+
+### 1. Basis-Partner (Einstiegsrang nach Verifizierung)
+
+**Möglichkeiten:**
+- Angebote für Aufträge mit erster Abholung zwischen 07:00–20:00 (Montag–Freitag)
+- Keine Wochenendabholungen
+- Transport nur innerhalb eines Tages möglich
+- Aufträge mit maximaler Entfernung bis 550 km
+- Angebote max. 1 Tag vor dem ersten Abholtermin
+
+**Aufstiegsbedingungen zum Partner:**
+- Abschluss der ersten 2 Aufträge
+- Pünktlichkeit bei Abholung: min. 80%
+- Pünktlichkeit bei Lieferung: min. 80%
+- Stornierungen durch Verschulden des Frachtführers: max. 10%
+- Aufträge mit aktivem GPS: min. 80%
+
+### 2. Partner (Standard-Zusammenarbeit)
+
+**Vorteile:**
+- Keine Einschränkungen bei Wochentagen und Uhrzeiten für Angebotsabgabe
+- Aufträge bis 1.500 km
+- Standardanzeige (grundlegende Filter für Auftragszeitbereich)
+
+**Aufstiegsbedingungen zum Vertrauenspartner:**
+- Min. 20 abgeschlossene Aufträge
+- Pünktlichkeit bei Abholung: min. 85%
+- Pünktlichkeit bei Lieferung: min. 85%
+- Stornierungen durch Verschulden des Frachtführers: max. 10%
+- Aufträge mit aktivem GPS: min. 80%
+
+### 3. Vertrauenspartner (Vertrauensvolle Zusammenarbeit)
+
+**Vorteile:**
+- Keine Einschränkungen bei Wochentagen und Uhrzeiten für Angebotsabgabe
+- Aufträge ohne Entfernungslimit
+- Aufträge 3 Tage im Voraus sichtbar (statt Standardbereich)
+
+**Aufstiegsbedingungen zum Premium-Partner:**
+- Min. 100 abgeschlossene Aufträge
+- Pünktlichkeit bei Abholung: min. 90%
+- Pünktlichkeit bei Lieferung: min. 90%
+- Stornierungen durch Verschulden des Frachtführers: max. 10%
+- Aufträge mit aktivem GPS: min. 80%
+- Volles operatives Vertrauen
+- Aufrechterhaltung höchster Zusammenarbeitsqualität
+
+### 4. Premium-Partner (Höchster Status)
+
+**Vorteile:**
+- Keine Einschränkungen bei Wochentagen und Uhrzeiten für Angebotsabgabe
+- Aufträge ohne Entfernungslimit
+- Aufträge 7 Tage im Voraus sichtbar (statt Standardbereich)
+- DAGO Express Bekleidungspaket (Jacke + T-Shirt) zur Verbesserung des professionellen Images bei Kunden
+
+**Wichtig:** Den aktuellen Rang und Fortschritt kann der Carrier im CarrierHub unter "Kontrollzentrum" einsehen. Der Rang wird automatisch anhand der Qualitätskennzahlen berechnet — es ist kein manueller Antrag nötig.
+
+---
+
 *Wissensdatenbank erstellt für DAGO Express GmbH - Zendesk AI Assistant*
