@@ -113,6 +113,10 @@ Ja, Registrierung und Nutzung des Portals sind komplett kostenfrei.
 
 Anstatt durchgehender Auslastung bietet DAGO Express einzelne Transporte an, die tagesaktuell online einsehbar sind. Bei Interesse an einem Transport bitte ein Preisgebot abgeben. Im Fall eines positiven Bescheids wird der Partner kontaktiert und der Auftrag erteilt.
 
+Wenn der Carrier nach voller Auslastung fragt: Wir können keine volle Auslastung garantieren. Für eine bessere Auftragslage empfehlen wir zusätzlich Frachtbörsen wie **Trans.eu** (https://www.trans.eu/) und **TIMOCOM** (https://www.timocom.de/). In Kombination mit DAGO Express erhöht sich die Chance auf gleichmäßige Auslastung.
+
+Video zur Zusammenarbeit mit DAGO Express (nur bei deutschsprachigen Carriern verlinken): https://www.youtube.com/watch?v=AgghATOtFZU&t=31s
+
 #### Kommt ein fester Arbeitsvertrag zustande?
 
 Nein, jeder Frachtvertrag ist als einzelner Auftrag zu betrachten. Ein dauerhafter Vertrag zwischen DAGO Express und dem Kurierpartner entsteht dadurch nicht.
