@@ -226,6 +226,12 @@ async def _handle_ticket(ticket_id: int):
         logger.info(f"Ticket {ticket_id} already processed for {comment_count} comments, skipping")
         return {"status": "skipped", "reason": "already processed"}
 
+    # Double-check: re-fetch ticket tags right before processing to catch race conditions
+    fresh_ticket = await get_ticket(ticket_id)
+    if fresh_ticket and current_marker in fresh_ticket.get("tags", []):
+        logger.info(f"Ticket {ticket_id} already processed (fresh check), skipping")
+        return {"status": "skipped", "reason": "already processed (fresh)"}
+
     # Check if ticket belongs to Carrier Support group (FAIL-CLOSED)
     carrier_group_id = await resolve_carrier_support_group_id()
     if not carrier_group_id:
@@ -338,8 +344,8 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
             if reply_text and _validate_auto_reply(analysis, reply_text):
                 logger.info(f"Ticket {ticket_id} follow-up auto-reply (AI flagged AUTO-REPLY: JA)")
                 try:
-                    await post_public_reply(ticket_id, reply_text, status="solved")
                     await add_tag(ticket_id, idempotency_marker)
+                    await post_public_reply(ticket_id, reply_text, status="solved")
                     await add_tag(ticket_id, "ai_auto_replied")
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 except Exception as e:
@@ -407,8 +413,8 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
                 auto_reply = await generate_bewerbung_reply(subject, message_body)
                 # --- Punkt 1: Validate ---
                 if _validate_auto_reply("BEWERBUNG", auto_reply):
-                    await post_public_reply(ticket_id, auto_reply, status="solved")
                     await add_tag(ticket_id, idempotency_marker)
+                    await post_public_reply(ticket_id, auto_reply, status="solved")
                     await add_tag(ticket_id, "ai_auto_replied")
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 else:
@@ -427,8 +433,8 @@ async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str)
                 reply_status = "solved"
                 logger.info(f"Ticket {ticket_id} category '{category}' — auto-reply (status={reply_status})")
                 try:
-                    await post_public_reply(ticket_id, reply_text, status=reply_status)
                     await add_tag(ticket_id, idempotency_marker)
+                    await post_public_reply(ticket_id, reply_text, status=reply_status)
                     await add_tag(ticket_id, "ai_auto_replied")
                     return {"status": "ok", "ticket_id": ticket_id, "auto_replied": True}
                 except Exception as e:
