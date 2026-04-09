@@ -116,6 +116,12 @@ RANG/AUFSTIEG:
 - Der Rang wird automatisch berechnet — kein manueller Antrag noetig
 - 🤖 AUTO-REPLY: JA
 
+BENACHRICHTIGUNGEN UEBER NEUE TRANSPORTE:
+- Carrier fragt nach Benachrichtigungen, Notifications, E-Mail-Alerts ueber neue Auftraege → 🤖 AUTO-REPLY: JA
+- Solo Driver (selbstaendiger Einzelfahrer): App → Profil → Benachrichtigungen → "Ueber neue verfuegbare Transporte informieren" (Umkreis + E-Mail aktivieren)
+- Fleet Manager (Flottenmanager): CarrierHub → Einstellungen → "Ueber neue verfuegbare Transporte informieren" (Umkreis + E-Mail aktivieren)
+- SMS-Benachrichtigung gibt es NICHT — nur E-Mail.
+
 DOKUMENTENPRUEFUNG/FREISCHALTUNG/STATUS:
 - Antwortvorschlag: Carrier nach registrierter E-Mail-Adresse fragen (damit wir Account finden). Kurz und auf den Punkt.
 - AUFGABE FUER MITARBEITER hinzufuegen mit genau 3 Schritten:
