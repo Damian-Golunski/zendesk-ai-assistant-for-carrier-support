@@ -225,6 +225,20 @@ Steuer-ID: DE342078274
 
 **Zahlungsfrist:** Die Tage werden ab Datum des Erhalts einer korrekt ausgestellten Rechnung zusammen mit der vollständigen Transportdokumentation (CMR, Lieferschein etc.) gezählt.
 
+#### Schnellere Auszahlung — Skonto-Optionen
+
+Es gibt zwei Möglichkeiten für eine schnellere Auszahlung:
+
+1. **SAME DAY PAYMENT (10 % Skonto)**
+   - Die Rechnung wird innerhalb von 24–48 Stunden bezahlt.
+   - Voraussetzung: Rechnung mit dem um 10 % reduzierten Betrag zusammen mit lesbaren Versanddokumenten an **skonto@dagoexpress.com** senden. Betreff: „Discount 10%".
+
+2. **EXPRESS PAYMENT (5 % Skonto)**
+   - Die Rechnung wird innerhalb von 14 Tagen bezahlt.
+   - Voraussetzung: Rechnung mit dem um 5 % reduzierten Betrag zusammen mit lesbaren Versanddokumenten an **skonto@dagoexpress.com** senden. Betreff: „Discount 5%".
+
+Ohne Skonto-Option gilt die reguläre Zahlungsfrist.
+
 #### Firma nicht in Deutschland - Reverse-Charge-Verfahren
 
 Wenn der Firmensitz nicht in Deutschland liegt, kommt das Reverse-Charge-Verfahren zum Ansatz. Es darf nur der Nettobetrag in Rechnung gestellt werden, keine Mehrwertsteuer ausweisen.
