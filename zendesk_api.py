@@ -1,8 +1,18 @@
 """Zendesk API client — fetches tickets, posts private notes."""
 import logging
 import os
+import re
 
 import httpx
+
+# Match http(s) URLs so private notes get clickable <a href> links in Zendesk UI.
+# Trailing punctuation (.,;:!?) is excluded so it doesn't get pulled into the href.
+_URL_RE = re.compile(r'(https?://[^\s<>"\']+[^\s<>"\'.,;:!?])')
+
+
+def _linkify(text: str) -> str:
+    """Wrap bare URLs in <a href> tags so Zendesk renders them as clickable links."""
+    return _URL_RE.sub(r'<a href="\1">\1</a>', text)
 
 logger = logging.getLogger(__name__)
 
@@ -157,7 +167,7 @@ async def post_private_note(ticket_id: int, body: str) -> bool:
     payload = {
         "ticket": {
             "comment": {
-                "html_body": body.replace("\n", "<br>"),
+                "html_body": _linkify(body).replace("\n", "<br>"),
                 "public": False,
             }
         }
