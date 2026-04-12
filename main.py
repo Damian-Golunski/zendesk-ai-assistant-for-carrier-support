@@ -30,8 +30,12 @@ from zendesk_webhook import router as webhook_router, limiter
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    # Connect to DAGO Hub
+    import hub_client
+    await hub_client.start()
     yield
-    # Cleanup global httpx client on shutdown (punkt 12)
+    # Cleanup
+    await hub_client.stop()
     await close_client()
 
 

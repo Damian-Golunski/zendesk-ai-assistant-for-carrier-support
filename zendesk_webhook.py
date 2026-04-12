@@ -257,6 +257,8 @@ async def _handle_ticket(ticket_id: int):
 
 async def _process_ticket(ticket_id: int, ticket: dict, idempotency_marker: str) -> dict:
     """Process a single ticket — extracted for timeout wrapping."""
+    import hub_client
+    await hub_client.emit("email.processed", {"ticketId": ticket_id, "subject": ticket.get("subject", "")})
 
     # Get comments
     comments = await get_ticket_comments(ticket_id)
